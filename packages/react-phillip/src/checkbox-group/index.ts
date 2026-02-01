@@ -1,1 +1,1 @@
-export * from '@base-ui-components/react/checkbox-group';
+export * from '@base-ui/react/checkbox-group';

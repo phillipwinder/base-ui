@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Accordion } from '@base-ui-components/react/accordion';
+import { Accordion } from '@base-ui/react/accordion';
 
 import { cva, VariantProps } from 'class-variance-authority';
 import { Plus, ChevronDown } from 'lucide-react';
@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils';
 
 // #region Utils
 function resolveClassName<State>(
-  className: string | ((state: State) => string) | undefined,
+  className: string | ((state: State) => string | undefined) | undefined,
   state: State,
 ) {
   return typeof className === 'function' ? className(state) : className;
@@ -114,8 +114,7 @@ const AccordionContext = React.createContext<AccordionContextType>({
 
 // #region Components
 interface AccordionRootProps
-  extends React.ComponentProps<typeof Accordion.Root>,
-    VariantProps<typeof accordionRootVariants> {
+  extends React.ComponentProps<typeof Accordion.Root>, VariantProps<typeof accordionRootVariants> {
   indicator?: 'arrow' | 'plus' | 'none';
 }
 

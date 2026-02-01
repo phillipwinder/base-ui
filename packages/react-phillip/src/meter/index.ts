@@ -1,1 +1,1 @@
-export * from '@base-ui-components/react/meter';
+export * from '@base-ui/react/meter';

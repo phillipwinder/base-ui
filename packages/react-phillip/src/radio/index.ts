@@ -1,1 +1,1 @@
-export * from '@base-ui-components/react/radio';
+export * from '@base-ui/react/radio';

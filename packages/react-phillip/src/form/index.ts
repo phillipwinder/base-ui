@@ -1,1 +1,1 @@
-export * from '@base-ui-components/react/form';
+export * from '@base-ui/react/form';

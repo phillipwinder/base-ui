@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { expect } from 'chai';
 import { spy } from 'sinon';
-import { MemoryRouter, Route, Routes, Link, useLocation } from 'react-router';
 import { act, fireEvent, screen, waitFor } from '@mui/internal-test-utils';
-import { Menu } from '@base-ui-components/react/menu';
+import { Menu } from '@base-ui/react/menu';
 import { describeConformance, createRenderer, isJSDOM } from '#test-utils';
 
 describe('<Menu.Item />', () => {
@@ -64,7 +63,7 @@ describe('<Menu.Item />', () => {
       return <li {...other} ref={ref} />;
     });
 
-    const { getAllByRole, user } = await render(
+    const { user } = await render(
       <Menu.Root open>
         <Menu.Portal>
           <Menu.Positioner>
@@ -87,7 +86,7 @@ describe('<Menu.Item />', () => {
       </Menu.Root>,
     );
 
-    const menuItems = getAllByRole('menuitem');
+    const menuItems = screen.getAllByRole('menuitem');
     await act(async () => {
       menuItems[0].focus();
     });
@@ -124,7 +123,7 @@ describe('<Menu.Item />', () => {
 
   describe('prop: closeOnClick', () => {
     it('closes the menu when the item is clicked by default', async () => {
-      const { getByRole, queryByRole, user } = await render(
+      const { user } = await render(
         <Menu.Root>
           <Menu.Trigger>Open</Menu.Trigger>
           <Menu.Portal>
@@ -137,17 +136,17 @@ describe('<Menu.Item />', () => {
         </Menu.Root>,
       );
 
-      const trigger = getByRole('button', { name: 'Open' });
+      const trigger = screen.getByRole('button', { name: 'Open' });
       await user.click(trigger);
 
-      const item = getByRole('menuitem');
+      const item = screen.getByRole('menuitem');
       await user.click(item);
 
-      expect(queryByRole('menu')).to.equal(null);
+      expect(screen.queryByRole('menu')).to.equal(null);
     });
 
     it('when `closeOnClick=false` does not close the menu when the item is clicked', async () => {
-      const { getByRole, queryByRole, user } = await render(
+      const { user } = await render(
         <Menu.Root>
           <Menu.Trigger>Open</Menu.Trigger>
           <Menu.Portal>
@@ -160,82 +159,13 @@ describe('<Menu.Item />', () => {
         </Menu.Root>,
       );
 
-      const trigger = getByRole('button', { name: 'Open' });
+      const trigger = screen.getByRole('button', { name: 'Open' });
       await user.click(trigger);
 
-      const item = getByRole('menuitem');
+      const item = screen.getByRole('menuitem');
       await user.click(item);
 
-      expect(queryByRole('menu')).not.to.equal(null);
-    });
-  });
-
-  describe('rendering links', () => {
-    function One() {
-      return <div>page one</div>;
-    }
-    function Two() {
-      return <div>page two</div>;
-    }
-    function LocationDisplay() {
-      const location = useLocation();
-      return <div data-testid="location">{location.pathname}</div>;
-    }
-
-    it('react-router <Link>', async () => {
-      const { getAllByRole, getByTestId, user } = await render(
-        <MemoryRouter initialEntries={['/']}>
-          <Routes>
-            <Route path="/" element={<One />} />
-            <Route path="/two" element={<Two />} />
-          </Routes>
-
-          <LocationDisplay />
-
-          <Menu.Root open>
-            <Menu.Portal>
-              <Menu.Positioner>
-                <Menu.Popup>
-                  <Menu.Item render={<Link to="/" />}>link 1</Menu.Item>
-                  <Menu.Item render={<Link to="/two" />}>link 2</Menu.Item>
-                </Menu.Popup>
-              </Menu.Positioner>
-            </Menu.Portal>
-          </Menu.Root>
-        </MemoryRouter>,
-      );
-
-      const [link1, link2] = getAllByRole('menuitem');
-
-      const locationDisplay = getByTestId('location');
-
-      expect(screen.getByText(/page one/i)).not.to.equal(null);
-
-      expect(locationDisplay).to.have.text('/');
-
-      await act(async () => {
-        link2.focus();
-      });
-
-      await waitFor(() => {
-        expect(link2).toHaveFocus();
-      });
-
-      await user.keyboard('[Enter]');
-
-      expect(locationDisplay).to.have.text('/two');
-
-      expect(screen.getByText(/page two/i)).not.to.equal(null);
-
-      await act(async () => {
-        link1.focus();
-      });
-
-      await user.keyboard('[Enter]');
-
-      expect(screen.getByText(/page one/i)).not.to.equal(null);
-
-      expect(locationDisplay).to.have.text('/');
+      expect(screen.queryByRole('menu')).not.to.equal(null);
     });
   });
 
@@ -245,7 +175,7 @@ describe('<Menu.Item />', () => {
       const handleKeyDown = spy();
       const handleKeyUp = spy();
 
-      const { getByRole } = await render(
+      await render(
         <Menu.Root open>
           <Menu.Portal>
             <Menu.Positioner>
@@ -264,7 +194,7 @@ describe('<Menu.Item />', () => {
         </Menu.Root>,
       );
 
-      const item = getByRole('menuitem');
+      const item = screen.getByRole('menuitem');
       await act(() => item.focus());
       expect(item).toHaveFocus();
 

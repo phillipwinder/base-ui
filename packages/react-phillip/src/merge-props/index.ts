@@ -1,1 +1,1 @@
-export * from '@base-ui-components/react/merge-props';
+export * from '@base-ui/react/merge-props';

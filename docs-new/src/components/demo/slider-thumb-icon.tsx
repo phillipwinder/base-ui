@@ -1,4 +1,4 @@
-import { Slider as SliderPrimitive } from '@base-ui-components/react/slider';
+import { Slider as SliderPrimitive } from '@base-ui/react/slider';
 import { DollarSignIcon } from 'lucide-react';
 import * as React from 'react';
 import { cn } from '@/lib/utils';

@@ -1,1 +1,1 @@
-export * from '@base-ui-components/react/fieldset';
+export * from '@base-ui/react/fieldset';

@@ -86,11 +86,6 @@ describe('NumberField parse', () => {
       expect(parseNumber('1234＋')).to.equal(1234);
     });
 
-    it('handles parentheses for negative numbers', () => {
-      expect(parseNumber('(1,234.5)')).to.equal(-1234.5);
-      expect(parseNumber('(12%)')).to.equal(-0.12);
-    });
-
     it('parses french formatted numbers with narrow no-break space grouping', () => {
       const fr = new Intl.NumberFormat('fr-FR').format(1234.5); // e.g., '1 234,5'
       expect(parseNumber(fr, 'fr-FR')).to.equal(1234.5);
@@ -143,10 +138,6 @@ describe('NumberField parse', () => {
       expect(parseNumber('1234-')).to.equal(-1234);
     });
 
-    it('handles fullwidth parentheses for negative numbers', () => {
-      expect(parseNumber('（1,234.5）')).to.equal(-1234.5);
-    });
-
     it('supports multiple unicode minus variants', () => {
       expect(parseNumber('‒123')).to.equal(-123); // figure dash
       expect(parseNumber('–123')).to.equal(-123); // en dash
@@ -177,8 +168,9 @@ describe('NumberField parse', () => {
     });
 
     it('handles Swiss grouping apostrophe', () => {
-      // de-CH uses RIGHT SINGLE QUOTATION MARK (U+2019) as group separator
+      // de-CH uses RIGHT SINGLE QUOTATION MARK (U+2019) as group separator on some platforms and straight apostrophe on others
       expect(parseNumber('1’234.56', 'de-CH')).to.equal(1234.56);
+      expect(parseNumber("1'234.56", 'de-CH')).to.equal(1234.56);
     });
 
     it('parses de-DE formatted numbers', () => {

@@ -2,17 +2,17 @@
   "name": "PopoverPositioner",
   "description": "Positions the popover against the trigger.\nRenders a `<div>` element.",
   "props": {
-    "collisionAvoidance": {
-      "type": "CollisionAvoidance",
-      "description": "Determines how to handle collisions when positioning the popup.",
-      "example": "```jsx\n<Positioner\n  collisionAvoidance={{\n    side: 'shift',\n    align: 'shift',\n    fallbackAxisSide: 'none',\n  }}\n/>\n```",
-      "detailedType": "| {\n    side?: 'none' | 'flip'\n    align?: 'shift' | 'none' | 'flip'\n    fallbackAxisSide?: 'none' | 'start' | 'end'\n  }\n| {\n    side?: 'shift' | 'none'\n    align?: 'shift' | 'none'\n    fallbackAxisSide?: 'none' | 'start' | 'end'\n  }\n| undefined"
+    "disableAnchorTracking": {
+      "type": "boolean",
+      "default": "false",
+      "description": "Whether to disable the popup from tracking any layout shift of its positioning anchor.",
+      "detailedType": "boolean | undefined"
     },
     "align": {
       "type": "Align",
       "default": "'center'",
       "description": "How to align the popup relative to the specified side.",
-      "detailedType": "'center' | 'start' | 'end' | undefined"
+      "detailedType": "'start' | 'center' | 'end' | undefined"
     },
     "alignOffset": {
       "type": "number | OffsetFunction",
@@ -41,15 +41,21 @@
       "detailedType": "number | undefined"
     },
     "anchor": {
-      "type": "Element | RefObject<Element | null> | VirtualElement | (() => Element | VirtualElement | null) | null",
+      "type": "Element | VirtualElement | RefObject<Element | null> | (() => Element | VirtualElement | null) | null",
       "description": "An element to position the popup against.\nBy default, the popup will be positioned against the trigger.",
-      "detailedType": "| Element\n| React.RefObject<Element | null>\n| VirtualElement\n| (() => Element | VirtualElement | null)\n| null\n| undefined"
+      "detailedType": "| Element\n| VirtualElement\n| React.RefObject<Element | null>\n| (() => Element | VirtualElement | null)\n| null\n| undefined"
+    },
+    "collisionAvoidance": {
+      "type": "CollisionAvoidance",
+      "description": "Determines how to handle collisions when positioning the popup.",
+      "example": "```jsx\n<Positioner\n  collisionAvoidance={{\n    side: 'shift',\n    align: 'shift',\n    fallbackAxisSide: 'none',\n  }}\n/>\n```",
+      "detailedType": "| {\n    side?: 'flip' | 'none'\n    align?: 'flip' | 'shift' | 'none'\n    fallbackAxisSide?: 'start' | 'end' | 'none'\n  }\n| {\n    side?: 'shift' | 'none'\n    align?: 'shift' | 'none'\n    fallbackAxisSide?: 'start' | 'end' | 'none'\n  }\n| undefined"
     },
     "collisionBoundary": {
       "type": "Boundary",
       "default": "'clipping-ancestors'",
       "description": "An element or a rectangle that delimits the area that the popup is confined to.",
-      "detailedType": "| Element\n| 'clipping-ancestors'\n| Element[]\n| Rect\n| undefined"
+      "detailedType": "| 'clipping-ancestors'\n| Element\n| Element[]\n| Rect\n| undefined"
     },
     "collisionPadding": {
       "type": "Padding",
@@ -64,21 +70,19 @@
       "detailedType": "boolean | undefined"
     },
     "positionMethod": {
-      "type": "'fixed' | 'absolute'",
+      "type": "'absolute' | 'fixed'",
       "default": "'absolute'",
       "description": "Determines which CSS `position` property to use.",
-      "detailedType": "'fixed' | 'absolute' | undefined"
-    },
-    "trackAnchor": {
-      "type": "boolean",
-      "default": "true",
-      "description": "Whether the popup tracks any layout shift of its positioning anchor.",
-      "detailedType": "boolean | undefined"
+      "detailedType": "'absolute' | 'fixed' | undefined"
     },
     "className": {
-      "type": "string | ((state: Popover.Positioner.State) => string)",
+      "type": "string | ((state: Popover.Positioner.State) => string | undefined)",
       "description": "CSS class applied to the element, or a function that\nreturns a class based on the component’s state.",
-      "detailedType": "| string\n| ((state: Popover.Positioner.State) => string)"
+      "detailedType": "| string\n| ((state: Popover.Positioner.State) => string | undefined)"
+    },
+    "style": {
+      "type": "CSSProperties | ((state: Popover.Positioner.State) => CSSProperties | undefined)",
+      "detailedType": "| React.CSSProperties\n| ((\n    state: Popover.Positioner.State,\n  ) => CSSProperties | undefined)\n| undefined"
     },
     "render": {
       "type": "ReactElement | ((props: HTMLProps, state: Popover.Positioner.State) => ReactElement)",
@@ -121,6 +125,12 @@
     "--available-width": {
       "description": "The available width between the trigger and the edge of the viewport.",
       "type": "number"
+    },
+    "--positioner-height": {
+      "description": "The height of the popover's positioner.\nIt is important to set `height` to this value when using CSS to animate size changes."
+    },
+    "--positioner-width": {
+      "description": "The width of the popover's positioner.\nIt is important to set `width` to this value when using CSS to animate size changes."
     },
     "--transform-origin": {
       "description": "The coordinates that this element is anchored to. Used for animations and transitions.",

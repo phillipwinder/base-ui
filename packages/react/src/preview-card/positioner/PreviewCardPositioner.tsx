@@ -8,6 +8,8 @@ import { popupStateMapping } from '../../utils/popupStateMapping';
 import { usePreviewCardPortalContext } from '../portal/PreviewCardPortalContext';
 import { POPUP_COLLISION_AVOIDANCE } from '../../utils/constants';
 import { useRenderElement } from '../../utils/useRenderElement';
+import { adaptiveOrigin } from '../../utils/adaptiveOriginMiddleware';
+import { getDisabledMountTransitionStyles } from '../../utils/getDisabledMountTransitionStyles';
 
 /**
  * Positions the popup against the trigger.
@@ -32,13 +34,20 @@ export const PreviewCardPositioner = React.forwardRef(function PreviewCardPositi
     collisionPadding = 5,
     arrowPadding = 5,
     sticky = false,
-    trackAnchor = true,
+    disableAnchorTracking = false,
     collisionAvoidance = POPUP_COLLISION_AVOIDANCE,
     ...elementProps
   } = componentProps;
 
-  const { open, mounted, floatingRootContext, setPositionerElement } = usePreviewCardRootContext();
+  const store = usePreviewCardRootContext();
   const keepMounted = usePreviewCardPortalContext();
+
+  const open = store.useState('open');
+  const mounted = store.useState('mounted');
+  const floatingRootContext = store.useState('floatingRootContext');
+  const instantType = store.useState('instantType');
+  const transitionStatus = store.useState('transitionStatus');
+  const hasViewport = store.useState('hasViewport');
 
   const positioning = useAnchorPositioning({
     anchor,
@@ -53,9 +62,10 @@ export const PreviewCardPositioner = React.forwardRef(function PreviewCardPositi
     collisionBoundary,
     collisionPadding,
     sticky,
-    trackAnchor,
+    disableAnchorTracking,
     keepMounted,
     collisionAvoidance,
+    adaptiveOrigin: hasViewport ? adaptiveOrigin : undefined,
   });
 
   const defaultProps: HTMLProps = React.useMemo(() => {
@@ -75,15 +85,13 @@ export const PreviewCardPositioner = React.forwardRef(function PreviewCardPositi
     };
   }, [open, mounted, positioning.positionerStyles]);
 
-  const state: PreviewCardPositioner.State = React.useMemo(
-    () => ({
-      open,
-      side: positioning.side,
-      align: positioning.align,
-      anchorHidden: positioning.anchorHidden,
-    }),
-    [open, positioning.side, positioning.align, positioning.anchorHidden],
-  );
+  const state: PreviewCardPositioner.State = {
+    open,
+    side: positioning.side,
+    align: positioning.align,
+    anchorHidden: positioning.anchorHidden,
+    instant: instantType,
+  };
 
   const contextValue: PreviewCardPositionerContext = React.useMemo(
     () => ({
@@ -104,8 +112,8 @@ export const PreviewCardPositioner = React.forwardRef(function PreviewCardPositi
 
   const element = useRenderElement('div', componentProps, {
     state,
-    ref: [setPositionerElement, forwardedRef],
-    props: [defaultProps, elementProps],
+    props: [defaultProps, getDisabledMountTransitionStyles(transitionStatus), elementProps],
+    ref: [forwardedRef, store.useStateSetter('positionerElement')],
     stateAttributesMapping: popupStateMapping,
   });
 
@@ -116,18 +124,23 @@ export const PreviewCardPositioner = React.forwardRef(function PreviewCardPositi
   );
 });
 
-export namespace PreviewCardPositioner {
-  export interface State {
-    /**
-     * Whether the preview card is currently open.
-     */
-    open: boolean;
-    side: Side;
-    align: Align;
-    anchorHidden: boolean;
-  }
+export interface PreviewCardPositionerState {
+  /**
+   * Whether the preview card is currently open.
+   */
+  open: boolean;
+  side: Side;
+  align: Align;
+  anchorHidden: boolean;
+  instant: 'dismiss' | 'focus' | undefined;
+}
 
-  export interface Props
-    extends useAnchorPositioning.SharedParameters,
-      BaseUIComponentProps<'div', State> {}
+export interface PreviewCardPositionerProps
+  extends
+    useAnchorPositioning.SharedParameters,
+    BaseUIComponentProps<'div', PreviewCardPositioner.State> {}
+
+export namespace PreviewCardPositioner {
+  export type State = PreviewCardPositionerState;
+  export type Props = PreviewCardPositionerProps;
 }

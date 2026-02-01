@@ -25,13 +25,10 @@ export const RadioIndicator = React.forwardRef(function RadioIndicator(
 
   const { transitionStatus, setMounted } = useTransitionStatus(rendered);
 
-  const state: RadioIndicator.State = React.useMemo(
-    () => ({
-      ...rootState,
-      transitionStatus,
-    }),
-    [rootState, transitionStatus],
-  );
+  const state: RadioIndicator.State = {
+    ...rootState,
+    transitionStatus,
+  };
 
   const indicatorRef = React.useRef<HTMLSpanElement | null>(null);
 
@@ -62,20 +59,23 @@ export const RadioIndicator = React.forwardRef(function RadioIndicator(
   return element;
 });
 
-export namespace RadioIndicator {
-  export interface Props extends BaseUIComponentProps<'span', State> {
-    /**
-     * Whether to keep the HTML element in the DOM when the radio button is inactive.
-     * @default false
-     */
-    keepMounted?: boolean;
-  }
+export interface RadioIndicatorProps extends BaseUIComponentProps<'span', RadioIndicator.State> {
+  /**
+   * Whether to keep the HTML element in the DOM when the radio button is inactive.
+   * @default false
+   */
+  keepMounted?: boolean | undefined;
+}
 
-  export interface State {
-    /**
-     * Whether the radio button is currently selected.
-     */
-    checked: boolean;
-    transitionStatus: TransitionStatus;
-  }
+export interface RadioIndicatorState {
+  /**
+   * Whether the radio button is currently selected.
+   */
+  checked: boolean;
+  transitionStatus: TransitionStatus;
+}
+
+export namespace RadioIndicator {
+  export type Props = RadioIndicatorProps;
+  export type State = RadioIndicatorState;
 }

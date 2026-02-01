@@ -8,6 +8,7 @@ import { popupStateMapping as baseMapping } from '../../utils/popupStateMapping'
 import type { TransitionStatus } from '../../utils/useTransitionStatus';
 import { transitionStatusMapping } from '../../utils/stateAttributesMapping';
 import { useContextMenuRootContext } from '../../context-menu/root/ContextMenuRootContext';
+import { REASONS } from '../../utils/reasons';
 
 const stateAttributesMapping: StateAttributesMapping<MenuBackdrop.State> = {
   ...baseMapping,
@@ -26,16 +27,18 @@ export const MenuBackdrop = React.forwardRef(function MenuBackdrop(
 ) {
   const { className, render, ...elementProps } = componentProps;
 
-  const { open, mounted, transitionStatus, lastOpenChangeReason } = useMenuRootContext();
+  const { store } = useMenuRootContext();
+  const open = store.useState('open');
+  const mounted = store.useState('mounted');
+  const transitionStatus = store.useState('transitionStatus');
+  const lastOpenChangeReason = store.useState('lastOpenChangeReason');
+
   const contextMenuContext = useContextMenuRootContext();
 
-  const state: MenuBackdrop.State = React.useMemo(
-    () => ({
-      open,
-      transitionStatus,
-    }),
-    [open, transitionStatus],
-  );
+  const state: MenuBackdrop.State = {
+    open,
+    transitionStatus,
+  };
 
   return useRenderElement('div', componentProps, {
     ref: contextMenuContext?.backdropRef
@@ -48,7 +51,7 @@ export const MenuBackdrop = React.forwardRef(function MenuBackdrop(
         role: 'presentation',
         hidden: !mounted,
         style: {
-          pointerEvents: lastOpenChangeReason === 'trigger-hover' ? 'none' : undefined,
+          pointerEvents: lastOpenChangeReason === REASONS.triggerHover ? 'none' : undefined,
           userSelect: 'none',
           WebkitUserSelect: 'none',
         },
@@ -58,14 +61,17 @@ export const MenuBackdrop = React.forwardRef(function MenuBackdrop(
   });
 });
 
-export namespace MenuBackdrop {
-  export interface State {
-    /**
-     * Whether the menu is currently open.
-     */
-    open: boolean;
-    transitionStatus: TransitionStatus;
-  }
+export interface MenuBackdropState {
+  /**
+   * Whether the menu is currently open.
+   */
+  open: boolean;
+  transitionStatus: TransitionStatus;
+}
 
-  export interface Props extends BaseUIComponentProps<'div', State> {}
+export interface MenuBackdropProps extends BaseUIComponentProps<'div', MenuBackdrop.State> {}
+
+export namespace MenuBackdrop {
+  export type State = MenuBackdropState;
+  export type Props = MenuBackdropProps;
 }

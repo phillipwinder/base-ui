@@ -1,4 +1,4 @@
-import { AlertDialog as AlertDialogPrimitive } from '@base-ui-components/react/alert-dialog';
+import { AlertDialog as AlertDialogPrimitive } from '@base-ui/react/alert-dialog';
 import { OctagonAlert, XIcon } from 'lucide-react';
 import { Button, buttonVariants } from '@phillip-ui-components/react/button';
 import {

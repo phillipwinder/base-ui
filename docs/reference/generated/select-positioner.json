@@ -1,6 +1,6 @@
 {
   "name": "SelectPositioner",
-  "description": "Positions the select menu popup.\nRenders a `<div>` element.",
+  "description": "Positions the select popup.\nRenders a `<div>` element.",
   "props": {
     "alignItemWithTrigger": {
       "type": "boolean",
@@ -8,17 +8,17 @@
       "description": "Whether the positioner overlaps the trigger so the selected item's text is aligned with the trigger's value text. This only applies to mouse input and is automatically disabled if there is not enough space.",
       "detailedType": "boolean | undefined"
     },
-    "collisionAvoidance": {
-      "type": "CollisionAvoidance",
-      "description": "Determines how to handle collisions when positioning the popup.",
-      "example": "```jsx\n<Positioner\n  collisionAvoidance={{\n    side: 'shift',\n    align: 'shift',\n    fallbackAxisSide: 'none',\n  }}\n/>\n```",
-      "detailedType": "| {\n    side?: 'none' | 'flip'\n    align?: 'shift' | 'none' | 'flip'\n    fallbackAxisSide?: 'none' | 'start' | 'end'\n  }\n| {\n    side?: 'shift' | 'none'\n    align?: 'shift' | 'none'\n    fallbackAxisSide?: 'none' | 'start' | 'end'\n  }\n| undefined"
+    "disableAnchorTracking": {
+      "type": "boolean",
+      "default": "false",
+      "description": "Whether to disable the popup from tracking any layout shift of its positioning anchor.",
+      "detailedType": "boolean | undefined"
     },
     "align": {
       "type": "Align",
       "default": "'center'",
       "description": "How to align the popup relative to the specified side.",
-      "detailedType": "'center' | 'start' | 'end' | undefined"
+      "detailedType": "'start' | 'center' | 'end' | undefined"
     },
     "alignOffset": {
       "type": "number | OffsetFunction",
@@ -47,15 +47,21 @@
       "detailedType": "number | undefined"
     },
     "anchor": {
-      "type": "Element | RefObject<Element | null> | VirtualElement | (() => Element | VirtualElement | null) | null",
+      "type": "Element | VirtualElement | RefObject<Element | null> | (() => Element | VirtualElement | null) | null",
       "description": "An element to position the popup against.\nBy default, the popup will be positioned against the trigger.",
-      "detailedType": "| Element\n| React.RefObject<Element | null>\n| VirtualElement\n| (() => Element | VirtualElement | null)\n| null\n| undefined"
+      "detailedType": "| Element\n| VirtualElement\n| React.RefObject<Element | null>\n| (() => Element | VirtualElement | null)\n| null\n| undefined"
+    },
+    "collisionAvoidance": {
+      "type": "CollisionAvoidance",
+      "description": "Determines how to handle collisions when positioning the popup.",
+      "example": "```jsx\n<Positioner\n  collisionAvoidance={{\n    side: 'shift',\n    align: 'shift',\n    fallbackAxisSide: 'none',\n  }}\n/>\n```",
+      "detailedType": "| {\n    side?: 'flip' | 'none'\n    align?: 'flip' | 'shift' | 'none'\n    fallbackAxisSide?: 'start' | 'end' | 'none'\n  }\n| {\n    side?: 'shift' | 'none'\n    align?: 'shift' | 'none'\n    fallbackAxisSide?: 'start' | 'end' | 'none'\n  }\n| undefined"
     },
     "collisionBoundary": {
       "type": "Boundary",
       "default": "'clipping-ancestors'",
       "description": "An element or a rectangle that delimits the area that the popup is confined to.",
-      "detailedType": "| Element\n| 'clipping-ancestors'\n| Element[]\n| Rect\n| undefined"
+      "detailedType": "| 'clipping-ancestors'\n| Element\n| Element[]\n| Rect\n| undefined"
     },
     "collisionPadding": {
       "type": "Padding",
@@ -70,21 +76,19 @@
       "detailedType": "boolean | undefined"
     },
     "positionMethod": {
-      "type": "'fixed' | 'absolute'",
+      "type": "'absolute' | 'fixed'",
       "default": "'absolute'",
       "description": "Determines which CSS `position` property to use.",
-      "detailedType": "'fixed' | 'absolute' | undefined"
-    },
-    "trackAnchor": {
-      "type": "boolean",
-      "default": "true",
-      "description": "Whether the popup tracks any layout shift of its positioning anchor.",
-      "detailedType": "boolean | undefined"
+      "detailedType": "'absolute' | 'fixed' | undefined"
     },
     "className": {
-      "type": "string | ((state: Select.Positioner.State) => string)",
+      "type": "string | ((state: Select.Positioner.State) => string | undefined)",
       "description": "CSS class applied to the element, or a function that\nreturns a class based on the component’s state.",
-      "detailedType": "| string\n| ((state: Select.Positioner.State) => string)"
+      "detailedType": "| string\n| ((state: Select.Positioner.State) => string | undefined)"
+    },
+    "style": {
+      "type": "CSSProperties | ((state: Select.Positioner.State) => CSSProperties | undefined)",
+      "detailedType": "| React.CSSProperties\n| ((\n    state: Select.Positioner.State,\n  ) => CSSProperties | undefined)\n| undefined"
     },
     "render": {
       "type": "ReactElement | ((props: HTMLProps, state: Select.Positioner.State) => ReactElement)",

@@ -1,1 +1,1 @@
-export * from '@base-ui-components/react/toolbar';
+export * from '@base-ui/react/toolbar';

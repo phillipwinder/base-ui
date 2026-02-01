@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { useRender } from "@base-ui-components/react/use-render";
+import { useRender } from '@base-ui/react/use-render';
 import {
   createFormHookContexts,
   createFormHook as createTanstackFormHook,
-} from "@tanstack/react-form";
-import * as React from "react";
+} from '@tanstack/react-form';
+import * as React from 'react';
 
-import { cn } from "@/lib/utils";
-import { Label } from "@/registry/components/ui/label";
+import { cn } from '@/lib/utils';
+import { Label } from '@/registry/components/ui/label';
 
 const { fieldContext, formContext, useFieldContext } = createFormHookContexts();
 
@@ -17,7 +17,7 @@ const useFormField = () => {
   const fieldContext = useFieldContext();
 
   if (!fieldContext) {
-    throw new Error("useFormField should be used within <field.Container>");
+    throw new Error('useFormField should be used within <field.Container>');
   }
 
   const { id } = itemContext;
@@ -36,83 +36,69 @@ type FormItemContextValue = {
   id: string;
 };
 
-const FormItemContext = React.createContext<FormItemContextValue>(
-  {} as FormItemContextValue
-);
+const FormItemContext = React.createContext<FormItemContextValue>({} as FormItemContextValue);
 
-function FormItem({ className, ...props }: React.ComponentProps<"div">) {
+function FormItem({ className, ...props }: React.ComponentProps<'div'>) {
   const id = React.useId();
 
   return (
     <FormItemContext.Provider value={{ id }}>
-      <div
-        data-slot="form-item"
-        className={cn("grid gap-2", className)}
-        {...props}
-      />
+      <div data-slot="form-item" className={cn('grid gap-2', className)} {...props} />
     </FormItemContext.Provider>
   );
 }
 
-function FieldLabel({
-  className,
-  ...props
-}: React.ComponentProps<typeof Label>) {
+function FieldLabel({ className, ...props }: React.ComponentProps<typeof Label>) {
   const { formItemId, isValid } = useFormField();
 
   return (
     <Label
       data-slot="field-label"
       data-error={!isValid}
-      className={cn("data-[error=true]:text-destructive", className)}
+      className={cn('data-[error=true]:text-destructive', className)}
       htmlFor={formItemId}
       {...props}
     />
   );
 }
 
-function FieldControl({
-  children = <div />,
-}: {
-  children?: useRender.RenderProp;
-}) {
-  const { formItemId, isValid, formDescriptionId, formMessageId } =
-    useFormField();
+function FieldControl({ children = <div /> }: { children?: useRender.RenderProp }) {
+  const { formItemId, isValid, formDescriptionId, formMessageId } = useFormField();
 
   return useRender({
     render: children,
     props: {
-      "data-slot": "field-control",
+      'data-slot': 'field-control',
       id: formItemId,
-      "aria-describedby": isValid
+      'aria-describedby': isValid
         ? `${formDescriptionId}`
         : `${formDescriptionId} ${formMessageId}`,
-      "aria-invalid": !isValid,
+      'aria-invalid': !isValid,
     },
   });
 }
 
-function FieldDescription({ className, ...props }: React.ComponentProps<"p">) {
+function FieldDescription({ className, ...props }: React.ComponentProps<'p'>) {
   const { formDescriptionId } = useFormField();
 
   return (
     <p
       data-slot="field-description"
       id={formDescriptionId}
-      className={cn("text-muted-foreground text-sm", className)}
+      className={cn('text-muted-foreground text-sm', className)}
       {...props}
     />
   );
 }
 
-function FieldMessage({ className, ...props }: React.ComponentProps<"p">) {
+function FieldMessage({ className, ...props }: React.ComponentProps<'p'>) {
   const { formMessageId, isValid, errors } = useFormField();
 
   if (props.children) return props.children;
 
   const body = isValid
     ? props.children
-    : String(errors.map((error) => error.message).join(", ") ?? "");
+    : String(errors.map((error) => error.message).join(', ') ?? '');
 
   if (!body) return null;
 
@@ -120,7 +106,7 @@ function FieldMessage({ className, ...props }: React.ComponentProps<"p">) {
     <p
       data-slot="field-message"
       id={formMessageId}
-      className={cn("text-destructive text-sm", className)}
+      className={cn('text-destructive text-sm', className)}
       {...props}
     >
       {body}
@@ -128,9 +114,7 @@ function FieldMessage({ className, ...props }: React.ComponentProps<"p">) {
   );
 }
 
-const createFormHook = (
-  args?: Parameters<typeof createTanstackFormHook>[0]
-) => {
+const createFormHook = (args?: Parameters<typeof createTanstackFormHook>[0]) => {
   const formHook = createTanstackFormHook({
     fieldComponents: {
       ...args?.fieldComponents,

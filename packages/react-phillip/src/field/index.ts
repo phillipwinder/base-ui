@@ -1,1 +1,1 @@
-export * from '@base-ui-components/react/field';
+export * from '@base-ui/react/field';

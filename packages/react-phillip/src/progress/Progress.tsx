@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { Progress as ProgressPrimitive } from "@base-ui-components/react/progress";
-import * as React from "react";
+import { Progress as ProgressPrimitive } from '@base-ui/react/progress';
+import * as React from 'react';
 
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 
 function Progress({
   className,
@@ -13,7 +13,7 @@ function Progress({
   return (
     <ProgressPrimitive.Root
       data-slot="progress"
-      className={cn("relative w-full", className)}
+      className={cn('relative w-full', className)}
       {...props}
     >
       {children ? (
@@ -34,10 +34,7 @@ function ProgressTrack({
   return (
     <ProgressPrimitive.Track
       data-slot="progress-track"
-      className={cn(
-        "bg-primary/20 w-full h-2 overflow-hidden rounded-full",
-        className
-      )}
+      className={cn('bg-primary/20 w-full h-2 overflow-hidden rounded-full', className)}
       {...props}
     />
   );
@@ -50,10 +47,7 @@ function ProgressIndicator({
   return (
     <ProgressPrimitive.Indicator
       data-slot="progress-indicator"
-      className={cn(
-        "bg-primary h-full w-full flex-1 transition-all",
-        className
-      )}
+      className={cn('bg-primary h-full w-full flex-1 transition-all', className)}
       {...props}
     />
   );
@@ -66,7 +60,7 @@ function ProgressLabel({
   return (
     <ProgressPrimitive.Label
       data-slot="progress-label"
-      className={cn("text-sm text-muted-foreground", className)}
+      className={cn('text-sm text-muted-foreground', className)}
       {...props}
     />
   );
@@ -79,16 +73,10 @@ function ProgressValue({
   return (
     <ProgressPrimitive.Value
       data-slot="progress-value"
-      className={cn("text-sm text-muted-foreground", className)}
+      className={cn('text-sm text-muted-foreground', className)}
       {...props}
     />
   );
 }
 
-export {
-  Progress,
-  ProgressIndicator,
-  ProgressLabel,
-  ProgressTrack,
-  ProgressValue,
-};
+export { Progress, ProgressIndicator, ProgressLabel, ProgressTrack, ProgressValue };

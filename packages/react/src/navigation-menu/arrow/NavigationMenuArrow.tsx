@@ -23,15 +23,12 @@ export const NavigationMenuArrow = React.forwardRef(function NavigationMenuArrow
   const { arrowRef, side, align, arrowUncentered, arrowStyles } =
     useNavigationMenuPositionerContext();
 
-  const state: NavigationMenuArrow.State = React.useMemo(
-    () => ({
-      open,
-      side,
-      align,
-      uncentered: arrowUncentered,
-    }),
-    [open, side, align, arrowUncentered],
-  );
+  const state: NavigationMenuArrow.State = {
+    open,
+    side,
+    align,
+    uncentered: arrowUncentered,
+  };
 
   const element = useRenderElement('div', componentProps, {
     state,
@@ -43,16 +40,22 @@ export const NavigationMenuArrow = React.forwardRef(function NavigationMenuArrow
   return element;
 });
 
-export namespace NavigationMenuArrow {
-  export interface State {
-    /**
-     * Whether the popup is currently open.
-     */
-    open: boolean;
-    side: Side;
-    align: Align;
-    uncentered: boolean;
-  }
+export interface NavigationMenuArrowState {
+  /**
+   * Whether the popup is currently open.
+   */
+  open: boolean;
+  side: Side;
+  align: Align;
+  uncentered: boolean;
+}
 
-  export interface Props extends BaseUIComponentProps<'div', State> {}
+export interface NavigationMenuArrowProps extends BaseUIComponentProps<
+  'div',
+  NavigationMenuArrow.State
+> {}
+
+export namespace NavigationMenuArrow {
+  export type State = NavigationMenuArrowState;
+  export type Props = NavigationMenuArrowProps;
 }

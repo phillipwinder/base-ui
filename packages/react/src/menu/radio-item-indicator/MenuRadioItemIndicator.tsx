@@ -9,7 +9,7 @@ import { useOpenChangeComplete } from '../../utils/useOpenChangeComplete';
 
 /**
  * Indicates whether the radio item is selected.
- * Renders a `<div>` element.
+ * Renders a `<span>` element.
  *
  * Documentation: [Base UI Menu](https://base-ui.com/react/components/menu)
  */
@@ -35,15 +35,12 @@ export const MenuRadioItemIndicator = React.forwardRef(function MenuRadioItemInd
     },
   });
 
-  const state: MenuRadioItemIndicator.State = React.useMemo(
-    () => ({
-      checked: item.checked,
-      disabled: item.disabled,
-      highlighted: item.highlighted,
-      transitionStatus,
-    }),
-    [item.checked, item.disabled, item.highlighted, transitionStatus],
-  );
+  const state: MenuRadioItemIndicator.State = {
+    checked: item.checked,
+    disabled: item.disabled,
+    highlighted: item.highlighted,
+    transitionStatus,
+  };
 
   const element = useRenderElement('span', componentProps, {
     state,
@@ -59,25 +56,31 @@ export const MenuRadioItemIndicator = React.forwardRef(function MenuRadioItemInd
   return element;
 });
 
-export namespace MenuRadioItemIndicator {
-  export interface Props extends BaseUIComponentProps<'span', State> {
-    /**
-     * Whether to keep the HTML element in the DOM when the radio item is inactive.
-     * @default false
-     */
-    keepMounted?: boolean;
-  }
+export interface MenuRadioItemIndicatorProps extends BaseUIComponentProps<
+  'span',
+  MenuRadioItemIndicator.State
+> {
+  /**
+   * Whether to keep the HTML element in the DOM when the radio item is inactive.
+   * @default false
+   */
+  keepMounted?: boolean | undefined;
+}
 
-  export interface State {
-    /**
-     * Whether the radio item is currently selected.
-     */
-    checked: boolean;
-    /**
-     * Whether the component should ignore user interaction.
-     */
-    disabled: boolean;
-    highlighted: boolean;
-    transitionStatus: TransitionStatus;
-  }
+export interface MenuRadioItemIndicatorState {
+  /**
+   * Whether the radio item is currently selected.
+   */
+  checked: boolean;
+  /**
+   * Whether the component should ignore user interaction.
+   */
+  disabled: boolean;
+  highlighted: boolean;
+  transitionStatus: TransitionStatus;
+}
+
+export namespace MenuRadioItemIndicator {
+  export type Props = MenuRadioItemIndicatorProps;
+  export type State = MenuRadioItemIndicatorState;
 }

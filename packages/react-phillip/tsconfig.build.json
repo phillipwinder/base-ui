@@ -12,10 +12,11 @@
     "rootDir": "./src",
     "outDir": "build/esm",
 
+    "baseUrl": ".",
     "paths": {
-      "@/lib/*": ["./packages/react-phillip/src/lib/*"],
-      "@/registry/components/ui/*": ["./packages/react-phillip/src/*"],
-      "@/registry/hooks/*": ["./packages/react-phillip/src/hooks/*"]
+      "@/lib/*": ["./src/lib/*"],
+      "@/registry/components/ui/*": ["./src/*"],
+      "@/registry/hooks/*": ["./src/hooks/*"]
     }
   },
   "include": ["src/**/*.ts*"],

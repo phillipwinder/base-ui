@@ -1,27 +1,22 @@
-import { RadioGroup } from "@/registry/components/ui/radio-group";
-import { Radio as RadioPrimitive } from "@base-ui-components/react/radio";
-import {
-  AppleIcon,
-  BananaIcon,
-  CherryIcon,
-  CircleCheckIcon,
-} from "lucide-react";
+import { RadioGroup } from '@/registry/components/ui/radio-group';
+import { Radio as RadioPrimitive } from '@base-ui/react/radio';
+import { AppleIcon, BananaIcon, CherryIcon, CircleCheckIcon } from 'lucide-react';
 
 const fruits = [
   {
-    name: "Apple",
-    value: "apple",
+    name: 'Apple',
+    value: 'apple',
     icon: AppleIcon,
     defaultChecked: true,
   },
   {
-    name: "Banana",
-    value: "banana",
+    name: 'Banana',
+    value: 'banana',
     icon: BananaIcon,
   },
   {
-    name: "Cherry",
-    value: "cherry",
+    name: 'Cherry',
+    value: 'cherry',
     icon: CherryIcon,
     defaultChecked: true,
   },
@@ -29,10 +24,7 @@ const fruits = [
 
 export default function RadioGroupCards() {
   return (
-    <RadioGroup
-      defaultValue={fruits[0].value}
-      className="flex items-center gap-6"
-    >
+    <RadioGroup defaultValue={fruits[0].value} className="flex items-center gap-6">
       {fruits.map((fruit) => (
         <RadioPrimitive.Root
           key={fruit.value}

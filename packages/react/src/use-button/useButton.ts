@@ -1,9 +1,10 @@
 'use client';
 import * as React from 'react';
 import { isHTMLElement } from '@floating-ui/utils/dom';
-import { useEventCallback } from '@base-ui-components/utils/useEventCallback';
-import { error } from '@base-ui-components/utils/error';
-import { useIsoLayoutEffect } from '@base-ui-components/utils/useIsoLayoutEffect';
+import { useStableCallback } from '@base-ui/utils/useStableCallback';
+import { error } from '@base-ui/utils/error';
+import { useIsoLayoutEffect } from '@base-ui/utils/useIsoLayoutEffect';
+import { SafeReact } from '@base-ui/utils/safeReact';
 import { makeEventPreventable, mergeProps } from '../merge-props';
 import { useCompositeRootContext } from '../composite/root/CompositeRootContext';
 import { BaseUIEvent, HTMLProps } from '../utils/types';
@@ -21,7 +22,7 @@ export function useButton(parameters: useButton.Parameters = {}): useButton.Retu
 
   const isCompositeItem = useCompositeRootContext(true) !== undefined;
 
-  const isValidLink = useEventCallback(() => {
+  const isValidLink = useStableCallback(() => {
     const element = elementRef.current;
     return Boolean(element?.tagName === 'A' && (element as HTMLAnchorElement)?.href);
   });
@@ -45,13 +46,15 @@ export function useButton(parameters: useButton.Parameters = {}): useButton.Retu
 
       if (isNativeButton) {
         if (!isButtonTag) {
+          const ownerStackMessage = SafeReact.captureOwnerStack?.() || '';
           error(
-            'A component that acts as a button was not rendered as a native <button>, which does not match the default. Ensure that the element passed to the `render` prop of the component is a real <button>, or set the `nativeButton` prop on the component to `false`.',
+            `A component that acts as a button was not rendered as a native <button>, which does not match the default. Ensure that the element passed to the \`render\` prop of the component is a real <button>, or set the \`nativeButton\` prop on the component to \`false\`.${ownerStackMessage}`,
           );
         }
       } else if (isButtonTag) {
+        const ownerStackMessage = SafeReact.captureOwnerStack?.() || '';
         error(
-          'A component that acts as a button was rendered as a native <button>, which does not match the default. Ensure that the element passed to the `render` prop of the component is not a real <button>, or set the `nativeButton` prop on the component to `true`.',
+          `A component that acts as a button was rendered as a native <button>, which does not match the default. Ensure that the element passed to the \`render\` prop of the component is not a real <button>, or set the \`nativeButton\` prop on the component to \`true\`.${ownerStackMessage}`,
         );
       }
     }, [isNativeButton]);
@@ -175,7 +178,7 @@ export function useButton(parameters: useButton.Parameters = {}): useButton.Retu
     [disabled, focusableWhenDisabledProps, isNativeButton, isValidLink],
   );
 
-  const buttonRef = useEventCallback((element: HTMLElement | null) => {
+  const buttonRef = useStableCallback((element: HTMLElement | null) => {
     elementRef.current = element;
     updateDisabled();
   });
@@ -193,50 +196,52 @@ function isButtonElement(
 }
 
 interface GenericButtonProps extends Omit<HTMLProps, 'onClick'>, AdditionalButtonProps {
-  onClick?: (event: React.SyntheticEvent) => void;
+  onClick?: ((event: React.SyntheticEvent) => void) | undefined;
 }
 
-interface AdditionalButtonProps
-  extends Partial<{
-    'aria-disabled': React.AriaAttributes['aria-disabled'];
-    disabled: boolean;
-    role: React.AriaRole;
-    tabIndex?: number;
-  }> {}
+interface AdditionalButtonProps extends Partial<{
+  'aria-disabled': React.AriaAttributes['aria-disabled'];
+  disabled: boolean;
+  role: React.AriaRole;
+  tabIndex?: number | undefined;
+}> {}
+
+export interface UseButtonParameters {
+  /**
+   * Whether the component should ignore user interaction.
+   * @default false
+   */
+  disabled?: boolean | undefined;
+  /**
+   * Whether the button may receive focus even if it is disabled.
+   * @default false
+   */
+  focusableWhenDisabled?: boolean | undefined;
+  tabIndex?: NonNullable<React.HTMLAttributes<any>['tabIndex']> | undefined;
+  /**
+   * Whether the component is being rendered as a native button.
+   * @default true
+   */
+  native?: boolean | undefined;
+}
+
+export interface UseButtonReturnValue {
+  /**
+   * Resolver for the button props.
+   * @param externalProps additional props for the button
+   * @returns props that should be spread on the button
+   */
+  getButtonProps: (
+    externalProps?: React.ComponentPropsWithRef<any>,
+  ) => React.ComponentPropsWithRef<any>;
+  /**
+   * A ref to the button DOM element. This ref should be passed to the rendered element.
+   * It is not a part of the props returned by `getButtonProps`.
+   */
+  buttonRef: React.Ref<HTMLElement>;
+}
 
 export namespace useButton {
-  export interface Parameters {
-    /**
-     * Whether the component should ignore user interaction.
-     * @default false
-     */
-    disabled?: boolean;
-    /**
-     * Whether the button may receive focus even if it is disabled.
-     * @default false
-     */
-    focusableWhenDisabled?: boolean;
-    tabIndex?: NonNullable<React.HTMLAttributes<any>['tabIndex']>;
-    /**
-     * Whether the component is being rendered as a native button.
-     * @default true
-     */
-    native?: boolean;
-  }
-
-  export interface ReturnValue {
-    /**
-     * Resolver for the button props.
-     * @param externalProps additional props for the button
-     * @returns props that should be spread on the button
-     */
-    getButtonProps: (
-      externalProps?: React.ComponentPropsWithRef<any>,
-    ) => React.ComponentPropsWithRef<any>;
-    /**
-     * A ref to the button DOM element. This ref should be passed to the rendered element.
-     * It is not a part of the props returned by `getButtonProps`.
-     */
-    buttonRef: React.Ref<HTMLElement>;
-  }
+  export type Parameters = UseButtonParameters;
+  export type ReturnValue = UseButtonReturnValue;
 }

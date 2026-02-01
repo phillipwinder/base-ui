@@ -1,4 +1,4 @@
-import { DirectionProvider } from '@base-ui-components/react/direction-provider';
+import { DirectionProvider } from '@base-ui/react/direction-provider';
 import { Slider } from '@phillip-ui-components/react/slider';
 import {
   Progress,

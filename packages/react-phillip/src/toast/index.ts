@@ -1,1 +1,1 @@
-export * from '@base-ui-components/react/toast';
+export * from '@base-ui/react/toast';

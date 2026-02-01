@@ -1,8 +1,8 @@
 'use client';
 import * as React from 'react';
-import { useStore } from '@base-ui-components/utils/store';
+import { useStore } from '@base-ui/utils/store';
 import { useComboboxRootContext } from '../root/ComboboxRootContext';
-import { isGroupedItems, stringifyItem } from '../root/utils';
+import { resolveMultipleLabels, resolveSelectedLabel } from '../../utils/resolveValueLabel';
 import { selectors } from '../store';
 
 /**
@@ -11,103 +11,48 @@ import { selectors } from '../store';
  *
  * Documentation: [Base UI Combobox](https://base-ui.com/react/components/combobox)
  */
-export function ComboboxValue(props: ComboboxValue.Props) {
-  const { children: childrenProp } = props;
+export function ComboboxValue(props: ComboboxValue.Props): React.ReactElement {
+  const { children: childrenProp, placeholder } = props;
 
   const store = useComboboxRootContext();
 
   const itemToStringLabel = useStore(store, selectors.itemToStringLabel);
   const selectedValue = useStore(store, selectors.selectedValue);
   const items = useStore(store, selectors.items);
+  const multiple = useStore(store, selectors.selectionMode) === 'multiple';
+  const hasSelectedValue = useStore(store, selectors.hasSelectedValue);
 
-  const isChildrenPropDefined = childrenProp !== undefined;
+  const shouldCheckNullItemLabel = !hasSelectedValue && placeholder != null && childrenProp == null;
+  const hasNullLabel = useStore(store, selectors.hasNullItemLabel, shouldCheckNullItemLabel);
 
-  const memoizedItemDerivatives = React.useMemo(() => {
-    if (isChildrenPropDefined || !Array.isArray(items)) {
-      return {
-        flatItems: undefined,
-        valueToLabel: undefined,
-        nullItemLabel: undefined,
-      };
-    }
-
-    const flatItems = isGroupedItems(items) ? items.flatMap((g) => g.items) : items;
-
-    let valueToLabel: Map<any, React.ReactNode> | undefined;
-    let nullItemLabel: React.ReactNode | undefined;
-
-    for (let i = 0; i < flatItems.length; i += 1) {
-      const item = flatItems[i];
-
-      if (item == null) {
-        if (nullItemLabel === undefined) {
-          nullItemLabel = stringifyItem(item, itemToStringLabel);
-        }
-        continue;
-      }
-
-      if (typeof item === 'object') {
-        const hasValueKey = 'value' in item;
-        const hasLabelKey = 'label' in item;
-
-        if (hasValueKey) {
-          if (item.value == null && nullItemLabel === undefined) {
-            nullItemLabel = hasLabelKey ? item.label : stringifyItem(item, itemToStringLabel);
-          }
-
-          if (hasLabelKey) {
-            valueToLabel ??= new Map();
-            if (!valueToLabel.has(item.value)) {
-              valueToLabel.set(item.value, item.label);
-            }
-          }
-        }
-      }
-    }
-
-    return {
-      flatItems,
-      valueToLabel,
-      nullItemLabel,
-    };
-  }, [items, itemToStringLabel, isChildrenPropDefined]);
-
+  let children = null;
   if (typeof childrenProp === 'function') {
-    return childrenProp(selectedValue);
+    children = childrenProp(selectedValue);
+  } else if (childrenProp != null) {
+    children = childrenProp;
+  } else if (!hasSelectedValue && placeholder != null && !hasNullLabel) {
+    children = placeholder;
+  } else if (multiple && Array.isArray(selectedValue)) {
+    children = resolveMultipleLabels(selectedValue, items, itemToStringLabel);
+  } else {
+    children = resolveSelectedLabel(selectedValue, items, itemToStringLabel);
   }
 
-  if (childrenProp != null) {
-    return childrenProp;
-  }
+  return <React.Fragment>{children}</React.Fragment>;
+}
 
-  if (
-    selectedValue &&
-    typeof selectedValue === 'object' &&
-    'label' in selectedValue &&
-    selectedValue.label != null
-  ) {
-    return selectedValue.label;
-  }
+export interface ComboboxValueState {}
 
-  if (Array.isArray(items)) {
-    if (selectedValue == null && memoizedItemDerivatives.nullItemLabel !== undefined) {
-      return memoizedItemDerivatives.nullItemLabel;
-    }
-
-    // When a value is selected and items are value/label pairs, render label.
-    // e.g. items: [{ value: 'uk', label: 'United Kingdom' }], selectedValue: 'uk' → 'United Kingdom'
-    if (selectedValue != null && memoizedItemDerivatives.valueToLabel?.has(selectedValue)) {
-      return memoizedItemDerivatives.valueToLabel.get(selectedValue);
-    }
-  }
-
-  return stringifyItem(selectedValue, itemToStringLabel);
+export interface ComboboxValueProps {
+  children?: React.ReactNode | ((selectedValue: any) => React.ReactNode);
+  /**
+   * The placeholder value to display when no value is selected.
+   * This is overridden by `children` if specified, or by a null item's label in `items`.
+   */
+  placeholder?: React.ReactNode;
 }
 
 export namespace ComboboxValue {
-  export interface State {}
-
-  export interface Props {
-    children?: React.ReactNode | ((selectedValue: any) => React.ReactNode);
-  }
+  export type State = ComboboxValueState;
+  export type Props = ComboboxValueProps;
 }

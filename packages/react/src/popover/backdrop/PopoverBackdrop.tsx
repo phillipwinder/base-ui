@@ -7,6 +7,7 @@ import { popupStateMapping as baseMapping } from '../../utils/popupStateMapping'
 import type { TransitionStatus } from '../../utils/useTransitionStatus';
 import { transitionStatusMapping } from '../../utils/stateAttributesMapping';
 import { useRenderElement } from '../../utils/useRenderElement';
+import { REASONS } from '../../utils/reasons';
 
 const stateAttributesMapping: StateAttributesMapping<PopoverBackdrop.State> = {
   ...baseMapping,
@@ -25,25 +26,27 @@ export const PopoverBackdrop = React.forwardRef(function PopoverBackdrop(
 ) {
   const { className, render, ...elementProps } = props;
 
-  const { open, mounted, transitionStatus, openReason, backdropRef } = usePopoverRootContext();
+  const { store } = usePopoverRootContext();
 
-  const state: PopoverBackdrop.State = React.useMemo(
-    () => ({
-      open,
-      transitionStatus,
-    }),
-    [open, transitionStatus],
-  );
+  const open = store.useState('open');
+  const mounted = store.useState('mounted');
+  const transitionStatus = store.useState('transitionStatus');
+  const openReason = store.useState('openChangeReason');
+
+  const state: PopoverBackdrop.State = {
+    open,
+    transitionStatus,
+  };
 
   const element = useRenderElement('div', props, {
     state,
-    ref: [backdropRef, forwardedRef],
+    ref: [store.context.backdropRef, forwardedRef],
     props: [
       {
         role: 'presentation',
         hidden: !mounted,
         style: {
-          pointerEvents: openReason === 'trigger-hover' ? 'none' : undefined,
+          pointerEvents: openReason === REASONS.triggerHover ? 'none' : undefined,
           userSelect: 'none',
           WebkitUserSelect: 'none',
         },
@@ -56,14 +59,17 @@ export const PopoverBackdrop = React.forwardRef(function PopoverBackdrop(
   return element;
 });
 
-export namespace PopoverBackdrop {
-  export interface State {
-    /**
-     * Whether the popover is currently open.
-     */
-    open: boolean;
-    transitionStatus: TransitionStatus;
-  }
+export interface PopoverBackdropState {
+  /**
+   * Whether the popover is currently open.
+   */
+  open: boolean;
+  transitionStatus: TransitionStatus;
+}
 
-  export interface Props extends BaseUIComponentProps<'div', State> {}
+export interface PopoverBackdropProps extends BaseUIComponentProps<'div', PopoverBackdrop.State> {}
+
+export namespace PopoverBackdrop {
+  export type State = PopoverBackdropState;
+  export type Props = PopoverBackdropProps;
 }

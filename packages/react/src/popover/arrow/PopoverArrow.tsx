@@ -19,18 +19,16 @@ export const PopoverArrow = React.forwardRef(function PopoverArrow(
 ) {
   const { className, render, ...elementProps } = componentProps;
 
-  const { open } = usePopoverRootContext();
+  const { store } = usePopoverRootContext();
+  const open = store.useState('open');
   const { arrowRef, side, align, arrowUncentered, arrowStyles } = usePopoverPositionerContext();
 
-  const state: PopoverArrow.State = React.useMemo(
-    () => ({
-      open,
-      side,
-      align,
-      uncentered: arrowUncentered,
-    }),
-    [open, side, align, arrowUncentered],
-  );
+  const state: PopoverArrow.State = {
+    open,
+    side,
+    align,
+    uncentered: arrowUncentered,
+  };
 
   const element = useRenderElement('div', componentProps, {
     state,
@@ -42,16 +40,19 @@ export const PopoverArrow = React.forwardRef(function PopoverArrow(
   return element;
 });
 
-export namespace PopoverArrow {
-  export interface State {
-    /**
-     * Whether the popover is currently open.
-     */
-    open: boolean;
-    side: Side;
-    align: Align;
-    uncentered: boolean;
-  }
+export interface PopoverArrowState {
+  /**
+   * Whether the popover is currently open.
+   */
+  open: boolean;
+  side: Side;
+  align: Align;
+  uncentered: boolean;
+}
 
-  export interface Props extends BaseUIComponentProps<'div', State> {}
+export interface PopoverArrowProps extends BaseUIComponentProps<'div', PopoverArrow.State> {}
+
+export namespace PopoverArrow {
+  export type State = PopoverArrowState;
+  export type Props = PopoverArrowProps;
 }

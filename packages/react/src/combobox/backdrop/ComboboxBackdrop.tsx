@@ -1,6 +1,6 @@
 'use client';
 import * as React from 'react';
-import { useStore } from '@base-ui-components/utils/store';
+import { useStore } from '@base-ui/utils/store';
 import type { BaseUIComponentProps } from '../../utils/types';
 import { useComboboxRootContext } from '../root/ComboboxRootContext';
 import { popupStateMapping } from '../../utils/popupStateMapping';
@@ -31,13 +31,10 @@ export const ComboboxBackdrop = React.forwardRef(function ComboboxBackdrop(
   const mounted = useStore(store, selectors.mounted);
   const transitionStatus = useStore(store, selectors.transitionStatus);
 
-  const state: ComboboxBackdrop.State = React.useMemo(
-    () => ({
-      open,
-      transitionStatus,
-    }),
-    [open, transitionStatus],
-  );
+  const state: ComboboxBackdrop.State = {
+    open,
+    transitionStatus,
+  };
 
   return useRenderElement('div', componentProps, {
     state,
@@ -57,14 +54,20 @@ export const ComboboxBackdrop = React.forwardRef(function ComboboxBackdrop(
   });
 });
 
-export namespace ComboboxBackdrop {
-  export interface Props extends BaseUIComponentProps<'div', State> {}
+export interface ComboboxBackdropProps extends BaseUIComponentProps<
+  'div',
+  ComboboxBackdrop.State
+> {}
 
-  export interface State {
-    /**
-     * Whether the popup is currently open.
-     */
-    open: boolean;
-    transitionStatus: TransitionStatus;
-  }
+export interface ComboboxBackdropState {
+  /**
+   * Whether the popup is currently open.
+   */
+  open: boolean;
+  transitionStatus: TransitionStatus;
+}
+
+export namespace ComboboxBackdrop {
+  export type Props = ComboboxBackdropProps;
+  export type State = ComboboxBackdropState;
 }

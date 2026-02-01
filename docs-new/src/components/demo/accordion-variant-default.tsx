@@ -8,7 +8,7 @@ import {
 
 export default function AccordionVariantDefault() {
   return (
-    <AccordionRoot openMultiple={false} className="w-full lg:w-[75%]">
+    <AccordionRoot multiple={false} className="w-full lg:w-[75%]">
       <AccordionItem value="coui-1">
         <AccordionHeader>
           <AccordionTrigger>What is Blitz UI?</AccordionTrigger>

@@ -10,7 +10,7 @@ import {
   AutocompletePositioner,
   AutocompleteStatus,
 } from '@phillip-ui-components/react/autocomplete';
-import { Autocomplete as AutocompletePrimitive } from '@base-ui-components/react/autocomplete';
+import { Autocomplete as AutocompletePrimitive } from '@base-ui/react/autocomplete';
 import * as React from 'react';
 import { Label } from '@phillip-ui-components/react/label';
 

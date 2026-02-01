@@ -22,8 +22,8 @@ To enable RTL support for Base UI components, you need to:
 ### Basic Usage
 
 ```tsx
-import { DirectionProvider } from "@base-ui-components/react/direction-provider";
-import { Slider } from "@/components/ui/slider";
+import { DirectionProvider } from '@base-ui/react/direction-provider';
+import { Slider } from '@/components/ui/slider';
 
 export default function RTLExample() {
   return (
@@ -42,21 +42,15 @@ For applications that need to support RTL throughout, configure the direction at
 
 ```tsx
 // app/layout.tsx or your root component
-import { DirectionProvider } from "@base-ui-components/react/direction-provider";
+import { DirectionProvider } from '@base-ui/react/direction-provider';
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const direction = "rtl"; // This could come from user preferences or locale detection
-  
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const direction = 'rtl'; // This could come from user preferences or locale detection
+
   return (
     <html lang="ar" dir={direction}>
       <body>
-        <DirectionProvider direction={direction}>
-          {children}
-        </DirectionProvider>
+        <DirectionProvider direction={direction}>{children}</DirectionProvider>
       </body>
     </html>
   );

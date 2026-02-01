@@ -40,14 +40,11 @@ export const ToolbarButton = React.forwardRef(function ToolbarButton(
     native: nativeButton,
   });
 
-  const state: ToolbarButton.State = React.useMemo(
-    () => ({
-      disabled,
-      orientation,
-      focusable: focusableWhenDisabled,
-    }),
-    [disabled, focusableWhenDisabled, orientation],
-  );
+  const state: ToolbarButton.State = {
+    disabled,
+    orientation,
+    focusable: focusableWhenDisabled,
+  };
 
   return (
     <CompositeItem
@@ -69,22 +66,26 @@ export const ToolbarButton = React.forwardRef(function ToolbarButton(
   );
 });
 
-export namespace ToolbarButton {
-  export interface State extends ToolbarRoot.State {
-    disabled: boolean;
-    focusable: boolean;
-  }
+export interface ToolbarButtonState extends ToolbarRoot.State {
+  disabled: boolean;
+  focusable: boolean;
+}
 
-  export interface Props extends NativeButtonProps, BaseUIComponentProps<'button', State> {
-    /**
-     * When `true` the item is disabled.
-     * @default false
-     */
-    disabled?: boolean;
-    /**
-     * When `true` the item remains focuseable when disabled.
-     * @default true
-     */
-    focusableWhenDisabled?: boolean;
-  }
+export interface ToolbarButtonProps
+  extends NativeButtonProps, BaseUIComponentProps<'button', ToolbarButton.State> {
+  /**
+   * When `true` the item is disabled.
+   * @default false
+   */
+  disabled?: boolean | undefined;
+  /**
+   * When `true` the item remains focuseable when disabled.
+   * @default true
+   */
+  focusableWhenDisabled?: boolean | undefined;
+}
+
+export namespace ToolbarButton {
+  export type State = ToolbarButtonState;
+  export type Props = ToolbarButtonProps;
 }

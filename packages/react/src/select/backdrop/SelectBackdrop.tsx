@@ -1,6 +1,6 @@
 'use client';
 import * as React from 'react';
-import { useStore } from '@base-ui-components/utils/store';
+import { useStore } from '@base-ui/utils/store';
 import type { BaseUIComponentProps } from '../../utils/types';
 import { useSelectRootContext } from '../root/SelectRootContext';
 import { popupStateMapping } from '../../utils/popupStateMapping';
@@ -33,13 +33,10 @@ export const SelectBackdrop = React.forwardRef(function SelectBackdrop(
   const mounted = useStore(store, selectors.mounted);
   const transitionStatus = useStore(store, selectors.transitionStatus);
 
-  const state: SelectBackdrop.State = React.useMemo(
-    () => ({
-      open,
-      transitionStatus,
-    }),
-    [open, transitionStatus],
-  );
+  const state: SelectBackdrop.State = {
+    open,
+    transitionStatus,
+  };
 
   const element = useRenderElement('div', componentProps, {
     state,
@@ -61,14 +58,14 @@ export const SelectBackdrop = React.forwardRef(function SelectBackdrop(
   return element;
 });
 
-export namespace SelectBackdrop {
-  export interface Props extends BaseUIComponentProps<'div', State> {}
+export interface SelectBackdropState {
+  open: boolean;
+  transitionStatus: TransitionStatus;
+}
 
-  export interface State {
-    /**
-     * Whether the select menu is currently open.
-     */
-    open: boolean;
-    transitionStatus: TransitionStatus;
-  }
+export interface SelectBackdropProps extends BaseUIComponentProps<'div', SelectBackdrop.State> {}
+
+export namespace SelectBackdrop {
+  export type State = SelectBackdropState;
+  export type Props = SelectBackdropProps;
 }

@@ -27,13 +27,10 @@ export const NavigationMenuBackdrop = React.forwardRef(function NavigationMenuBa
 
   const { open, mounted, transitionStatus } = useNavigationMenuRootContext();
 
-  const state: NavigationMenuBackdrop.State = React.useMemo(
-    () => ({
-      open,
-      transitionStatus,
-    }),
-    [open, transitionStatus],
-  );
+  const state: NavigationMenuBackdrop.State = {
+    open,
+    transitionStatus,
+  };
 
   const element = useRenderElement('div', componentProps, {
     state,
@@ -55,17 +52,23 @@ export const NavigationMenuBackdrop = React.forwardRef(function NavigationMenuBa
   return element;
 });
 
-export namespace NavigationMenuBackdrop {
-  export interface State {
-    /**
-     * If `true`, the popup is open.
-     */
-    open: boolean;
-    /**
-     * The transition status of the popup.
-     */
-    transitionStatus: TransitionStatus;
-  }
+export interface NavigationMenuBackdropState {
+  /**
+   * If `true`, the popup is open.
+   */
+  open: boolean;
+  /**
+   * The transition status of the popup.
+   */
+  transitionStatus: TransitionStatus;
+}
 
-  export interface Props extends BaseUIComponentProps<'div', State> {}
+export interface NavigationMenuBackdropProps extends BaseUIComponentProps<
+  'div',
+  NavigationMenuBackdrop.State
+> {}
+
+export namespace NavigationMenuBackdrop {
+  export type State = NavigationMenuBackdropState;
+  export type Props = NavigationMenuBackdropProps;
 }

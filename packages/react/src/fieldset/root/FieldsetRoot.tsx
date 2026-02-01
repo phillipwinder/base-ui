@@ -18,12 +18,9 @@ export const FieldsetRoot = React.forwardRef(function FieldsetRoot(
 
   const [legendId, setLegendId] = React.useState<string | undefined>(undefined);
 
-  const state: FieldsetRoot.State = React.useMemo(
-    () => ({
-      disabled,
-    }),
-    [disabled],
-  );
+  const state: FieldsetRoot.State = {
+    disabled,
+  };
 
   const element = useRenderElement('fieldset', componentProps, {
     ref: forwardedRef,
@@ -50,13 +47,15 @@ export const FieldsetRoot = React.forwardRef(function FieldsetRoot(
   );
 });
 
-export namespace FieldsetRoot {
-  export type State = {
-    /**
-     * Whether the component should ignore user interaction.
-     */
-    disabled: boolean;
-  };
+export interface FieldsetRootState {
+  /**
+   * Whether the component should ignore user interaction.
+   */
+  disabled: boolean;
+}
+export interface FieldsetRootProps extends BaseUIComponentProps<'fieldset', FieldsetRoot.State> {}
 
-  export interface Props extends BaseUIComponentProps<'fieldset', State> {}
+export namespace FieldsetRoot {
+  export type State = FieldsetRootState;
+  export type Props = FieldsetRootProps;
 }

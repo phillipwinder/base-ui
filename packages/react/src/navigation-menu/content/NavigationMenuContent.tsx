@@ -1,9 +1,9 @@
 'use client';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { inertValue } from '@base-ui-components/utils/inertValue';
+import { inertValue } from '@base-ui/utils/inertValue';
 import { FloatingNode } from '../../floating-ui-react';
-import { contains } from '../../floating-ui-react/utils';
+import { contains, getTarget } from '../../floating-ui-react/utils';
 import type { BaseUIComponentProps, HTMLProps } from '../../utils/types';
 import {
   useNavigationMenuRootContext,
@@ -51,7 +51,7 @@ export const NavigationMenuContent = React.forwardRef(function NavigationMenuCon
     currentContentRef,
     viewportTargetElement,
   } = useNavigationMenuRootContext();
-  const itemValue = useNavigationMenuItemContext();
+  const { value: itemValue } = useNavigationMenuItemContext();
   const nodeId = useNavigationMenuTreeContext();
 
   const open = popupMounted && value === itemValue;
@@ -61,6 +61,12 @@ export const NavigationMenuContent = React.forwardRef(function NavigationMenuCon
   const [focusInside, setFocusInside] = React.useState(false);
 
   const { mounted, setMounted, transitionStatus } = useTransitionStatus(open);
+
+  // If the popup unmounts before the content's exit animation completes, reset the internal
+  // mounted state so the next open can re-enter via `transitionStatus="starting"`.
+  if (mounted && !popupMounted) {
+    setMounted(false);
+  }
 
   useOpenChangeComplete({
     ref,
@@ -72,14 +78,11 @@ export const NavigationMenuContent = React.forwardRef(function NavigationMenuCon
     },
   });
 
-  const state: NavigationMenuContent.State = React.useMemo(
-    () => ({
-      open,
-      transitionStatus,
-      activationDirection,
-    }),
-    [open, transitionStatus, activationDirection],
-  );
+  const state: NavigationMenuContent.State = {
+    open,
+    transitionStatus,
+    activationDirection,
+  };
 
   const handleCurrentContentRef = React.useCallback(
     (node: HTMLDivElement | null) => {
@@ -90,8 +93,12 @@ export const NavigationMenuContent = React.forwardRef(function NavigationMenuCon
     [currentContentRef],
   );
 
-  const commonProps: HTMLProps = {
-    onFocus() {
+  const commonProps: HTMLProps<HTMLDivElement> = {
+    onFocus(event) {
+      const target = getTarget(event.nativeEvent) as Element | null;
+      if (target?.hasAttribute('data-base-ui-focus-guard')) {
+        return;
+      }
       setFocusInside(true);
     },
     onBlur(event) {
@@ -126,28 +133,33 @@ export const NavigationMenuContent = React.forwardRef(function NavigationMenuCon
         refs={[forwardedRef, ref, handleCurrentContentRef]}
         props={[defaultProps, elementProps]}
         stateAttributesMapping={stateAttributesMapping}
-        stopEventPropagation
       />
     </FloatingNode>,
     portalContainer,
   );
 });
 
-export namespace NavigationMenuContent {
-  export interface State {
-    /**
-     * If `true`, the component is open.
-     */
-    open: boolean;
-    /**
-     * The transition status of the component.
-     */
-    transitionStatus: TransitionStatus;
-    /**
-     * The direction of the activation.
-     */
-    activationDirection: 'left' | 'right' | 'up' | 'down' | null;
-  }
+export interface NavigationMenuContentState {
+  /**
+   * If `true`, the component is open.
+   */
+  open: boolean;
+  /**
+   * The transition status of the component.
+   */
+  transitionStatus: TransitionStatus;
+  /**
+   * The direction of the activation.
+   */
+  activationDirection: 'left' | 'right' | 'up' | 'down' | null;
+}
 
-  export interface Props extends BaseUIComponentProps<'div', State> {}
+export interface NavigationMenuContentProps extends BaseUIComponentProps<
+  'div',
+  NavigationMenuContent.State
+> {}
+
+export namespace NavigationMenuContent {
+  export type State = NavigationMenuContentState;
+  export type Props = NavigationMenuContentProps;
 }

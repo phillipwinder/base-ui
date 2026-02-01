@@ -1,6 +1,6 @@
 'use client';
 import * as React from 'react';
-import { useIsoLayoutEffect } from '@base-ui-components/utils/useIsoLayoutEffect';
+import { useIsoLayoutEffect } from '@base-ui/utils/useIsoLayoutEffect';
 import { useBaseUiId } from '../../utils/useBaseUiId';
 import { useRenderElement } from '../../utils/useRenderElement';
 import { useFieldsetRootContext } from '../root/FieldsetRootContext';
@@ -29,12 +29,9 @@ export const FieldsetLegend = React.forwardRef(function FieldsetLegend(
     };
   }, [setLegendId, id]);
 
-  const state: FieldsetLegend.State = React.useMemo(
-    () => ({
-      disabled: disabled ?? false,
-    }),
-    [disabled],
-  );
+  const state: FieldsetLegend.State = {
+    disabled: disabled ?? false,
+  };
 
   const element = useRenderElement('div', componentProps, {
     state,
@@ -45,13 +42,16 @@ export const FieldsetLegend = React.forwardRef(function FieldsetLegend(
   return element;
 });
 
-export namespace FieldsetLegend {
-  export interface State {
-    /**
-     * Whether the component should ignore user interaction.
-     */
-    disabled: boolean;
-  }
+export interface FieldsetLegendState {
+  /**
+   * Whether the component should ignore user interaction.
+   */
+  disabled: boolean;
+}
 
-  export interface Props extends BaseUIComponentProps<'div', State> {}
+export interface FieldsetLegendProps extends BaseUIComponentProps<'div', FieldsetLegend.State> {}
+
+export namespace FieldsetLegend {
+  export type State = FieldsetLegendState;
+  export type Props = FieldsetLegendProps;
 }

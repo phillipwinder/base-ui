@@ -1,1 +1,1 @@
-export * from '@base-ui-components/react/use-render';
+export * from '@base-ui/react/use-render';

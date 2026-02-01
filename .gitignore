@@ -5,7 +5,6 @@
 # IntelliJ IDEA module file
 *.iml
 *.log
-*.tsbuildinfo
 /.eslintcache
 /coverage
 /docs/.env.local
@@ -38,3 +37,15 @@ docs/public/react
 /docs-new/.content-collections
 /docs-new/.source
 /docs-new/next-env.d.ts
+.cursor/rules/nx-rules.mdc
+.github/instructions/nx.instructions.md
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# Claude
+.claude/settings.local.json
+
+# Testing
+test-results/
