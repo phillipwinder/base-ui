@@ -20,6 +20,8 @@
     "docs:start": "pnpm --filter docs serve",
     "docs:link-check": "pnpm --filter docs link-check",
     "docs:generate-llms": "pnpm --filter docs run generate-llms",
+    "docs-new:dev": "pnpm --filter docs-new dev",
+    "docs-new:registry:build": "pnpm --filter docs-new registry:build",
     "extract-error-codes": "cross-env MUI_EXTRACT_ERROR_CODES=true lerna run --concurrency 1 build:stable",
     "jsonlint": "code-infra jsonlint",
     "eslint": "eslint . --cache --report-unused-disable-directives --ext .js,.ts,.tsx,.mts --max-warnings 0 && pnpm -r lint",

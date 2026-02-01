@@ -18,7 +18,10 @@
       "@base-ui-components/react": ["./packages/react/src"],
       "@base-ui-components/react/*": ["./packages/react/src/*"],
       "@base-ui-components/utils/*": ["./packages/utils/src/*"],
-      "docs/*": ["./docs/*"]
+      "docs/*": ["./docs/*"],
+      "@phillip-ui-components/react": ["./packages/react-phillip/src"],
+      "@phillip-ui-components/react/*": ["./packages/react-phillip/src/*"],
+      "docs-new/*": ["./docs-new/*"]
     }
   },
   "exclude": ["**/.*/", "**/build", "**/build-tests", "**/node_modules", "docs/export"]

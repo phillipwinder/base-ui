@@ -32,3 +32,9 @@ size-snapshot.json
 docs/public/llms.txt
 docs/public/llms-full.txt
 docs/public/react
+
+/docs-new/.next
+/docs-new/.contentlayer
+/docs-new/.content-collections
+/docs-new/.source
+/docs-new/next-env.d.ts

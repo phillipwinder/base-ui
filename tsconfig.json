@@ -11,6 +11,12 @@
     },
     {
       "path": "packages/utils/tsconfig.json"
+    },
+    {
+      "path": "docs-new/tsconfig.json"
+    },
+    {
+      "path": "packages/react-phillip/tsconfig.json"
     }
   ]
 }

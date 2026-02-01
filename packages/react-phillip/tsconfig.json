@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@/lib/*": ["./packages/react-phillip/src/lib/*"],
+      "@/registry/components/ui/*": ["./packages/react-phillip/src/*"],
+      "@/registry/hooks/*": ["./packages/react-phillip/src/hooks/*"]
+    }
+  },
+  "references": [
+    {
+      "path": "./tsconfig.build.json"
+    },
+    {
+      "path": "./tsconfig.test.json"
+    }
+  ]
+}

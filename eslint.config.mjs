@@ -20,7 +20,7 @@ const OneLevelImportMessage = [
 
 const NO_RESTRICTED_IMPORTS_PATTERNS_DEEPLY_NESTED = [
   {
-    group: ['@base-ui-components/react/*/*'],
+    group: ['@phillip-ui-components/react/*/*'],
     message: OneLevelImportMessage,
   },
 ];
@@ -31,7 +31,7 @@ const NO_RESTRICTED_IMPORTS_PATHS_TOP_LEVEL_PACKAGES = [
 ];
 
 export default defineConfig(
-  globalIgnores(['./examples']),
+  globalIgnores(['./examples', 'docs-new']),
   {
     name: 'Base Config',
     extends: createBaseConfig({
@@ -52,6 +52,7 @@ export default defineConfig(
       // @TODO: Remove this once we move away from namespaces
       '@typescript-eslint/no-namespace': 'off',
       'import/export': 'off', // FIXME: Maximum call stack exceeded
+      'import/extensions': 'off',
       'no-restricted-imports': [
         'error',
         {
@@ -62,6 +63,7 @@ export default defineConfig(
       'no-irregular-whitespace': ['warn', { skipJSXText: true, skipStrings: true }],
       'react/no-unescaped-entities': ['warn', { forbid: ['>', '}'] }],
       'react/prop-types': 'off',
+      'react/react-in-jsx-scope': 'off',
       'react-hooks/exhaustive-deps': [
         'error',
         {
