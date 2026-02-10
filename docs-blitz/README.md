@@ -33,5 +33,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [shadcn/ui](https://ui.shadcn.com/) - For the amazing component foundation
 - [Base UI](https://base-ui.com/) - For the robust accessibility layer
 - [Tailwind CSS](https://tailwindcss.com/) - For the utility-first CSS framework
-
-Test

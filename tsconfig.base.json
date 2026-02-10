@@ -21,7 +21,7 @@
       "docs/*": ["./docs/*"],
       "@phillip-ui-components/react": ["./packages/react-phillip/src"],
       "@phillip-ui-components/react/*": ["./packages/react-phillip/src/*"],
-      "docs-new/*": ["./docs-new/*"]
+      "docs-blitz/*": ["./docs-blitz/*"]
     }
   },
   "exclude": ["**/.*/", "**/build", "**/build-tests", "**/node_modules", "docs/export"]

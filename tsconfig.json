@@ -16,7 +16,7 @@
       "path": "scripts/tsconfig.json"
     },
     {
-      "path": "docs-new/tsconfig.json"
+      "path": "docs-blitz/tsconfig.json"
     },
     {
       "path": "packages/react-phillip/tsconfig.json"
