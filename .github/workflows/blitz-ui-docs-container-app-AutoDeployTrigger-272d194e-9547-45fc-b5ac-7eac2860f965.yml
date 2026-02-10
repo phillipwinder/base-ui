@@ -4,19 +4,18 @@ name: Trigger auto deployment for blitz-ui-docs-container-app
 on:
   # Automatically trigger it when detected changes in repo
   push:
-    branches: 
-      [ initial-architecture ]
+    branches: [initial-architecture]
     paths:
-    - '**'
-    - '.github/workflows/blitz-ui-docs-container-app-AutoDeployTrigger-272d194e-9547-45fc-b5ac-7eac2860f965.yml'
+      - '**'
+      - '.github/workflows/blitz-ui-docs-container-app-AutoDeployTrigger-272d194e-9547-45fc-b5ac-7eac2860f965.yml'
 
-  # Allow manual trigger 
-  workflow_dispatch:      
+  # Allow manual trigger
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    permissions: 
+    permissions:
       id-token: write #This is required for requesting the OIDC JWT Token
       contents: read #Required when GH token is used to authenticate with private repo
 
@@ -35,15 +34,10 @@ jobs:
         uses: azure/container-apps-deploy-action@v2
         with:
           appSourcePath: ${{ github.workspace }}
-          _dockerfilePathKey_: _dockerfilePath_
-          _targetLabelKey_: _targetLabel_
+          dockerfilePath: Dockerfile
           registryUrl: docker.io
           registryUsername: ${{ secrets.BLITZUIDOCSCONTAINERAPP_REGISTRY_USERNAME }}
           registryPassword: ${{ secrets.BLITZUIDOCSCONTAINERAPP_REGISTRY_PASSWORD }}
           containerAppName: blitz-ui-docs-container-app
           resourceGroup: blitz-ui
           imageToBuild: phillip.winder@icloud.com/blitz-ui-docs-container-app:${{ github.sha }}
-          _buildArgumentsKey_: |
-            _buildArgumentsValues_
-
-
