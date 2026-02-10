@@ -19,7 +19,7 @@
       "path": "docs-blitz/tsconfig.json"
     },
     {
-      "path": "packages/react-phillip/tsconfig.json"
+      "path": "packages/react-blitz/tsconfig.json"
     }
   ]
 }

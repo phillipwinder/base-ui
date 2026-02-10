@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "utils",
   "type": "registry:lib",
-  "title": "Utils for Phillip UI",
-  "description": "Utility functions for Phillip UI components",
+  "title": "Utils for Blitz UI",
+  "description": "Utility functions for Blitz UI components",
   "files": [
     {
       "path": "src/registry/lib/utils.ts",

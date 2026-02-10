@@ -1,7 +1,7 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
-  "name": "phillipcn",
-  "homepage": "https://phillipcn.dev",
+  "name": "blitz-ui",
+  "homepage": "https://blitz-ui.com",
   "items": [
     {
       "name": "accordion",

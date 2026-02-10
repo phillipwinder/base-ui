@@ -169,7 +169,7 @@ export default defineConfig(
     },
   },
   {
-    files: [`packages/react-phillip/**/*${EXTENSION_TS}`],
+    files: [`packages/react-blitz/**/*${EXTENSION_TS}`],
     rules: {
       'mui/add-undef-to-optional': 'off',
       'no-nested-ternary': 'off',

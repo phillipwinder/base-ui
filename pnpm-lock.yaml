@@ -381,7 +381,7 @@ importers:
         version: 1.1.0
       '@blitz-ui/react':
         specifier: workspace:*
-        version: link:../packages/react-phillip/build
+        version: link:../packages/react-blitz/build
       '@radix-ui/react-slot':
         specifier: ^1.2.3
         version: 1.2.4(@types/react@19.2.10)(react@19.2.4)
@@ -724,7 +724,7 @@ importers:
         version: 2.0.4(@types/react-dom@19.2.3(@types/react@19.2.10))(@types/react@19.2.10)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(vitest@4.0.18)
     publishDirectory: build
 
-  packages/react-phillip:
+  packages/react-blitz:
     dependencies:
       '@babel/runtime':
         specifier: ^7.27.6

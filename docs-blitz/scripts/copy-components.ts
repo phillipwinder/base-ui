@@ -69,7 +69,7 @@ console.info('Copying components to docs registry...');
 for (const component of components) {
   const source = path.join(
     import.meta.dirname,
-    `../../packages/react-phillip/src/${toKebabCase(component)}/${component}.tsx`,
+    `../../packages/react-blitz/src/${toKebabCase(component)}/${component}.tsx`,
   );
   const destination = path.join(
     import.meta.dirname,
@@ -80,7 +80,7 @@ for (const component of components) {
 
 copy(
   'hooks',
-  path.join(import.meta.dirname, `../../packages/react-phillip/src/hooks`),
+  path.join(import.meta.dirname, `../../packages/react-blitz/src/hooks`),
   path.join(import.meta.dirname, `../src/registry/hooks`),
 );
 
