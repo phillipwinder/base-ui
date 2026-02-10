@@ -40,8 +40,8 @@ export function ThemePresetSelector() {
             Flexible UI components that adapt to how you build.
           </h2>
           <p className="text-muted-foreground max-w-[800px] md:text-lg">
-            The UI library that lets you choose between dependency-based usage and full source
-            integration — enterprise-ready, accessible and feature-rich.
+            The UI library that lets you choose, per component, between dependency-based usage and
+            full source integration — enterprise-ready, accessible and feature-rich.
           </p>
         </motion.div>
 
