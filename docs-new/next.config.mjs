@@ -18,6 +18,16 @@ const config = {
       },
     ];
   },
+  redirects() {
+    return [
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www' }],
+        destination: 'https://blitz-ui.com/:path*',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default withMDX(config);
