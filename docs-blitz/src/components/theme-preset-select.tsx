@@ -2,27 +2,12 @@
 
 import { Badge } from '@blitz-ui/react/badge';
 import { Button } from '@blitz-ui/react/button';
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandItem,
-} from '@blitz-ui/react/command';
+import { Command, CommandEmpty, CommandGroup, CommandItem } from '@blitz-ui/react/command';
 import { Input } from '@blitz-ui/react/input';
-import {
-  Popover,
-  PopoverContent,
-  PopoverPositioner,
-  PopoverTrigger,
-} from '@blitz-ui/react/popover';
+import { Popover, PopoverContent, PopoverTrigger } from '@blitz-ui/react/popover';
 import { ScrollArea } from '@blitz-ui/react/scroll-area';
 import { Separator } from '@blitz-ui/react/separator';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipPositioner,
-  TooltipTrigger,
-} from '@blitz-ui/react/tooltip';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@blitz-ui/react/tooltip';
 import { authClient } from '@/lib/auth-client';
 import { cn } from '@/lib/utils';
 import { useEditorStore } from '@/store/editor-store';
@@ -116,24 +101,24 @@ const ThemeCycleButton: React.FC<ThemeCycleButtonProps> = ({
   ...props
 }) => (
   <Tooltip>
-    <TooltipTrigger>
-      <Button
-        variant="ghost"
-        size="icon"
-        className={cn('aspect-square h-full shrink-0', className)}
-        onClick={onClick}
-        {...props}
-      >
-        {direction === 'prev' ? (
-          <ArrowLeft className="h-4 w-4" />
-        ) : (
-          <ArrowRight className="h-4 w-4" />
-        )}
-      </Button>
-    </TooltipTrigger>
-    <TooltipPositioner>
-      <TooltipContent>{direction === 'prev' ? 'Previous theme' : 'Next theme'}</TooltipContent>
-    </TooltipPositioner>
+    <TooltipTrigger
+      render={
+        <Button
+          variant="ghost"
+          size="icon"
+          className={cn('aspect-square h-full shrink-0', className)}
+          onClick={onClick}
+          {...props}
+        >
+          {direction === 'prev' ? (
+            <ArrowLeft className="h-4 w-4" />
+          ) : (
+            <ArrowRight className="h-4 w-4" />
+          )}
+        </Button>
+      }
+    />
+    <TooltipContent>{direction === 'prev' ? 'Previous theme' : 'Next theme'}</TooltipContent>
   </Tooltip>
 );
 
@@ -310,132 +295,130 @@ const ThemePresetSelect: React.FC<ThemePresetSelectProps> = ({
             </Button>
           }
         />
-        <PopoverPositioner align="center">
-          <PopoverContent className="w-[300px] p-0">
-            <Command className="h-100 w-full">
-              <div className="flex w-full items-center">
-                <div className="flex w-full items-center border-b px-3 py-1">
-                  <Search className="size-4 shrink-0 opacity-50" />
-                  <Input
-                    placeholder="Search themes..."
-                    className="border-0 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                  />
-                </div>
+        <PopoverContent align="center" className="w-[300px] p-0">
+          <Command className="h-100 w-full">
+            <div className="flex w-full items-center">
+              <div className="flex w-full items-center border-b px-3 py-1">
+                <Search className="size-4 shrink-0 opacity-50" />
+                <Input
+                  placeholder="Search themes..."
+                  className="border-0 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
               </div>
-              <div className="flex items-center justify-between px-3 py-2">
-                <div className="text-muted-foreground text-sm">
-                  {filteredPresets.length} theme
-                  {filteredPresets.length !== 1 ? 's' : ''}
-                </div>
-                <ThemeControls />
+            </div>
+            <div className="flex items-center justify-between px-3 py-2">
+              <div className="text-muted-foreground text-sm">
+                {filteredPresets.length} theme
+                {filteredPresets.length !== 1 ? 's' : ''}
               </div>
-              <Separator />
-              <ScrollArea className="h-[500px] max-h-[70vh]">
-                <CommandEmpty>No themes found.</CommandEmpty>
+              <ThemeControls />
+            </div>
+            <Separator />
+            <ScrollArea className="h-[500px] max-h-[70vh]">
+              <CommandEmpty>No themes found.</CommandEmpty>
 
-                {/* Saved Themes Group */}
-                {filteredSavedThemes.length > 0 && (
-                  <>
-                    <CommandGroup
-                      heading={
-                        <div className="flex w-full items-center justify-between">
-                          <span>Saved Themes</span>
-                          <Link href="/settings/themes">
-                            <Button
-                              variant="link"
-                              size="sm"
-                              className="text-muted-foreground hover:text-foreground flex items-center gap-1.5 p-0 text-xs"
-                            >
-                              <span>Manage</span>
-                              <Settings className="size-3.5!" />
-                            </Button>
-                          </Link>
-                        </div>
-                      }
-                    >
-                      {filteredSavedThemes
-                        .filter((name) => name !== 'default' && isSavedTheme(name))
-                        .map((presetName, index) => (
-                          <CommandItem
-                            key={`${presetName}-${index}`}
-                            value={`${presetName}-${index}`}
-                            onSelect={() => {
-                              applyThemePreset(presetName);
-                              setSearch('');
-                            }}
-                            className="data-[highlighted]:bg-secondary/50 flex items-center gap-2 py-2"
+              {/* Saved Themes Group */}
+              {filteredSavedThemes.length > 0 && (
+                <>
+                  <CommandGroup
+                    heading={
+                      <div className="flex w-full items-center justify-between">
+                        <span>Saved Themes</span>
+                        <Link href="/settings/themes">
+                          <Button
+                            variant="link"
+                            size="sm"
+                            className="text-muted-foreground hover:text-foreground flex items-center gap-1.5 p-0 text-xs"
                           >
-                            <ThemeColors presetName={presetName} mode={mode} />
-                            <div className="flex flex-1 items-center gap-2">
-                              <span className="line-clamp-1 text-sm font-medium capitalize">
-                                {presets[presetName]?.label || presetName}
-                              </span>
-                              {presets[presetName] && isThemeNew(presets[presetName]) && (
-                                <Badge variant="secondary" className="rounded-full text-xs">
-                                  New
-                                </Badge>
-                              )}
-                            </div>
-                            {presetName === currentPresetName && (
-                              <Check className="h-4 w-4 shrink-0 opacity-70" />
-                            )}
-                          </CommandItem>
-                        ))}
-                    </CommandGroup>
-                    <Separator className="my-2" />
-                  </>
-                )}
-
-                {filteredSavedThemes.length === 0 && search.trim() === '' && (
-                  <>
-                    <div className="text-muted-foreground flex items-center gap-1.5 px-3 py-2 text-xs font-medium">
-                      <div className="bg-muted flex items-center gap-1 rounded-md border px-2 py-0.5">
-                        <Heart className="fill-muted-foreground size-3" />
-                        <span>Save</span>
+                            <span>Manage</span>
+                            <Settings className="size-3.5!" />
+                          </Button>
+                        </Link>
                       </div>
-                      <span className="text-muted-foreground">a theme to find it here.</span>
-                    </div>
-                    <Separator />
-                  </>
-                )}
-
-                {/* Default Theme Group */}
-                {filteredDefaultThemes.length > 0 && (
-                  <CommandGroup heading="Built-in Themes">
-                    {filteredDefaultThemes.map((presetName, index) => (
-                      <CommandItem
-                        key={`${presetName}-${index}`}
-                        value={`${presetName}-${index}`}
-                        onSelect={() => {
-                          applyThemePreset(presetName);
-                          setSearch('');
-                        }}
-                        className="data-[highlighted]:bg-secondary/50 flex items-center gap-2 py-2"
-                      >
-                        <ThemeColors presetName={presetName} mode={mode} />
-                        <div className="flex flex-1 items-center gap-2">
-                          <span className="text-sm font-medium capitalize">
-                            {presets[presetName]?.label || presetName}
-                          </span>
-                          {presets[presetName] && isThemeNew(presets[presetName]) && (
-                            <Badge variant="secondary" className="rounded-full text-xs">
-                              New
-                            </Badge>
+                    }
+                  >
+                    {filteredSavedThemes
+                      .filter((name) => name !== 'default' && isSavedTheme(name))
+                      .map((presetName, index) => (
+                        <CommandItem
+                          key={`${presetName}-${index}`}
+                          value={`${presetName}-${index}`}
+                          onSelect={() => {
+                            applyThemePreset(presetName);
+                            setSearch('');
+                          }}
+                          className="data-[highlighted]:bg-secondary/50 flex items-center gap-2 py-2"
+                        >
+                          <ThemeColors presetName={presetName} mode={mode} />
+                          <div className="flex flex-1 items-center gap-2">
+                            <span className="line-clamp-1 text-sm font-medium capitalize">
+                              {presets[presetName]?.label || presetName}
+                            </span>
+                            {presets[presetName] && isThemeNew(presets[presetName]) && (
+                              <Badge variant="secondary" className="rounded-full text-xs">
+                                New
+                              </Badge>
+                            )}
+                          </div>
+                          {presetName === currentPresetName && (
+                            <Check className="h-4 w-4 shrink-0 opacity-70" />
                           )}
-                        </div>
-                        {presetName === currentPresetName && (
-                          <Check className="h-4 w-4 shrink-0 opacity-70" />
-                        )}
-                      </CommandItem>
-                    ))}
+                        </CommandItem>
+                      ))}
                   </CommandGroup>
-                )}
-              </ScrollArea>
-            </Command>
-          </PopoverContent>
-        </PopoverPositioner>
+                  <Separator className="my-2" />
+                </>
+              )}
+
+              {filteredSavedThemes.length === 0 && search.trim() === '' && (
+                <>
+                  <div className="text-muted-foreground flex items-center gap-1.5 px-3 py-2 text-xs font-medium">
+                    <div className="bg-muted flex items-center gap-1 rounded-md border px-2 py-0.5">
+                      <Heart className="fill-muted-foreground size-3" />
+                      <span>Save</span>
+                    </div>
+                    <span className="text-muted-foreground">a theme to find it here.</span>
+                  </div>
+                  <Separator />
+                </>
+              )}
+
+              {/* Default Theme Group */}
+              {filteredDefaultThemes.length > 0 && (
+                <CommandGroup heading="Built-in Themes">
+                  {filteredDefaultThemes.map((presetName, index) => (
+                    <CommandItem
+                      key={`${presetName}-${index}`}
+                      value={`${presetName}-${index}`}
+                      onSelect={() => {
+                        applyThemePreset(presetName);
+                        setSearch('');
+                      }}
+                      className="data-[highlighted]:bg-secondary/50 flex items-center gap-2 py-2"
+                    >
+                      <ThemeColors presetName={presetName} mode={mode} />
+                      <div className="flex flex-1 items-center gap-2">
+                        <span className="text-sm font-medium capitalize">
+                          {presets[presetName]?.label || presetName}
+                        </span>
+                        {presets[presetName] && isThemeNew(presets[presetName]) && (
+                          <Badge variant="secondary" className="rounded-full text-xs">
+                            New
+                          </Badge>
+                        )}
+                      </div>
+                      {presetName === currentPresetName && (
+                        <Check className="h-4 w-4 shrink-0 opacity-70" />
+                      )}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              )}
+            </ScrollArea>
+          </Command>
+        </PopoverContent>
       </Popover>
 
       {withCycleThemes && (

@@ -17,7 +17,6 @@ import { cn } from '@/lib/utils';
 import { Input } from '@blitz-ui/react/input';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
 import { Separator } from '@blitz-ui/react/separator';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@blitz-ui/react/tabs';
 import { TooltipProvider } from '@blitz-ui/react/tooltip';
 import { AccountSwitcher } from '@/components/examples/mail/components/account-switcher';
 import { MailDisplay } from '@/components/examples/mail/components/mail-display';
@@ -25,6 +24,7 @@ import { MailList } from '@/components/examples/mail/components/mail-list';
 import { Nav } from '@/components/examples/mail/components/nav';
 import { type Mail } from '@/components/examples/mail/data';
 import { useMail } from '@/components/examples/mail/use-mail';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@blitz-ui/react/tabs';
 
 interface MailProps {
   accounts: {

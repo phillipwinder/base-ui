@@ -1,12 +1,9 @@
-import * as React from 'react';
-
 import {
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
   SelectLabel,
-  SelectPositioner,
   SelectTrigger,
   SelectValue,
 } from '@blitz-ui/react/select';
@@ -18,20 +15,18 @@ export default function SelectDemo() {
         <SelectValue placeholder="Select a timezone" />
       </SelectTrigger>
 
-      <SelectPositioner alignItemWithTrigger>
-        <SelectContent>
-          {Object.entries(timezones).map(([group, items]) => (
-            <SelectGroup key={group}>
-              <SelectLabel>{group}</SelectLabel>
-              {items.map((item) => (
-                <SelectItem key={item.value} value={item.value}>
-                  {item.label}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          ))}
-        </SelectContent>
-      </SelectPositioner>
+      <SelectContent alignItemWithTrigger>
+        {Object.entries(timezones).map(([group, items]) => (
+          <SelectGroup key={group}>
+            <SelectLabel>{group}</SelectLabel>
+            {items.map((item) => (
+              <SelectItem key={item.value} value={item.value}>
+                {item.label}
+              </SelectItem>
+            ))}
+          </SelectGroup>
+        ))}
+      </SelectContent>
     </Select>
   );
 }

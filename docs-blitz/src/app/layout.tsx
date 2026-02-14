@@ -11,6 +11,10 @@ import { ThemeScript } from '@/components/theme-script';
 import { DynamicFontLoader } from '@/components/dynamic-font-loader';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import { ThemeProvider } from '@/components/theme-provider';
+import { QueryProvider } from '@/lib/query-client';
+import { ChatProvider } from '@/hooks/use-chat-context';
+import { TooltipProvider } from '@blitz-ui/react/tooltip';
+import { SiteHeader } from '@/components/site-header';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -79,32 +83,31 @@ export default function Layout({ children }: { children: ReactNode }) {
           rel="stylesheet"
         />
       </head>
-      <body className="flex flex-col min-h-screen">
+      <body className="flex flex-col min-h-screen [--header-height:calc(var(--spacing)*14)]">
         <NuqsAdapter>
           <Suspense>
-            <ThemeProvider>
-              <RootProvider
-                theme={
-                  {
-                    // enabled: false,
-                  }
-                }
-              >
-                {children}
-
-                <Databuddy
-                  clientId="HMM4VGqblgu59xr2UOpco"
-                  trackOutgoingLinks
-                  trackInteractions
-                  trackEngagement
-                  trackBounceRate
-                  trackWebVitals
-                  enableBatching
-                />
-
-                <Toaster />
-              </RootProvider>
-            </ThemeProvider>
+            <QueryProvider>
+              <ThemeProvider>
+                <TooltipProvider>
+                  <RootProvider>
+                    <Databuddy
+                      clientId="HMM4VGqblgu59xr2UOpco"
+                      trackOutgoingLinks
+                      trackInteractions
+                      trackEngagement
+                      trackBounceRate
+                      trackWebVitals
+                      enableBatching
+                    />
+                    <Toaster />
+                    <ChatProvider>
+                      <SiteHeader />
+                      {children}
+                    </ChatProvider>
+                  </RootProvider>
+                </TooltipProvider>
+              </ThemeProvider>
+            </QueryProvider>
           </Suspense>
         </NuqsAdapter>
       </body>

@@ -39,7 +39,8 @@ function Button({
   className,
   variant,
   size,
-  render = <button type="button" aria-label="hello" />,
+  // eslint-disable-next-line jsx-a11y/control-has-associated-label
+  render = <button type="button" />,
   ...props
 }: ButtonProps) {
   return useRender({

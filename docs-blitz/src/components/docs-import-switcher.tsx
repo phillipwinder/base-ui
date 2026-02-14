@@ -4,15 +4,9 @@ import * as React from 'react';
 import Link from 'next/link';
 import { cn, ImportParadigm, importParadigms } from '@/lib/utils';
 import { getCurrentImportParadigm, IMPORT_PARADIGM_LOCALSTORAGE_KEY } from '@/lib/import-paradigm';
-import { Icons } from './icons2';
+import { Icons } from './icons';
 import { Zap } from 'lucide-react';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipPositioner,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@blitz-ui/react/tooltip';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@blitz-ui/react/tooltip';
 
 export function DocsImportParadigmSwitcher({
   component,
@@ -48,38 +42,38 @@ export function DocsImportParadigmSwitcher({
 
           return (
             <Tooltip key={paradigm.key}>
-              <TooltipTrigger>
-                <Link
-                  href={href}
-                  // Persist ASAP on pointer interactions (more reliable than onClick)
-                  onPointerDown={() => persistChoice(paradigm.key)}
-                  // Persist for keyboard users (Enter / Space)
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') persistChoice(paradigm.key);
-                  }}
-                  data-active={isActive}
-                  className={cn(
-                    'text-muted-foreground hover:text-foreground data-[active=true]:text-foreground',
-                    'after:bg-foreground relative inline-flex items-center justify-center gap-1',
-                    'pt-1 pb-0.5 text-base font-medium transition-colors',
-                    'after:absolute after:inset-x-0 after:bottom-[-4px] after:h-0.5 after:opacity-0 after:transition-opacity',
-                    'data-[active=true]:after:opacity-100',
-                  )}
-                  aria-current={isActive ? 'page' : undefined}
-                >
-                  {paradigm.title}
-                  <div className="text-muted-foreground ml-auto size-4 shrink-0 opacity-80 [&_svg]:size-4">
-                    {paradigm.key === ImportParadigm.Dependency && <Zap />}
-                    {paradigm.key === ImportParadigm.Registry && <Icons.shadcn />}
-                  </div>
-                </Link>
-              </TooltipTrigger>
-              <TooltipPositioner>
-                <TooltipContent>
-                  {paradigm.key === ImportParadigm.Dependency && 'Import component as dependency'}
-                  {paradigm.key === ImportParadigm.Registry && 'Import component from registry'}
-                </TooltipContent>
-              </TooltipPositioner>
+              <TooltipTrigger
+                render={
+                  <Link
+                    href={href}
+                    // Persist ASAP on pointer interactions (more reliable than onClick)
+                    onPointerDown={() => persistChoice(paradigm.key)}
+                    // Persist for keyboard users (Enter / Space)
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') persistChoice(paradigm.key);
+                    }}
+                    data-active={isActive}
+                    className={cn(
+                      'text-muted-foreground hover:text-foreground data-[active=true]:text-foreground',
+                      'after:bg-foreground relative inline-flex items-center justify-center gap-1',
+                      'pt-1 pb-0.5 text-base font-medium transition-colors',
+                      'after:absolute after:inset-x-0 after:bottom-[-4px] after:h-0.5 after:opacity-0 after:transition-opacity',
+                      'data-[active=true]:after:opacity-100',
+                    )}
+                    aria-current={isActive ? 'page' : undefined}
+                  >
+                    {paradigm.title}
+                    <div className="text-muted-foreground ml-auto size-4 shrink-0 opacity-80 [&_svg]:size-4">
+                      {paradigm.key === ImportParadigm.Dependency && <Zap />}
+                      {paradigm.key === ImportParadigm.Registry && <Icons.shadcn />}
+                    </div>
+                  </Link>
+                }
+              />
+              <TooltipContent>
+                {paradigm.key === ImportParadigm.Dependency && 'Import component as dependency'}
+                {paradigm.key === ImportParadigm.Registry && 'Import component from registry'}
+              </TooltipContent>
             </Tooltip>
           );
         })}

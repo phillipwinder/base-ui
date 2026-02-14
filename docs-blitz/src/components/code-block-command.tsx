@@ -2,24 +2,24 @@ import { config } from '@/config';
 import { Separator } from '@/registry/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/registry/components/ui/tabs';
 import { CodeBlock } from './code-block';
-import { BunLogo, NPMLogo, PnpmLogo, YarnLogo } from './icons';
+import { Icons } from './icons';
 
 const tabs = [
   {
     value: 'pnpm',
-    icon: PnpmLogo,
+    icon: Icons.pnpm,
   },
   {
     value: 'npm',
-    icon: NPMLogo,
+    icon: Icons.npm,
   },
   {
     value: 'yarn',
-    icon: YarnLogo,
+    icon: Icons.yarn,
   },
   {
     value: 'bun',
-    icon: BunLogo,
+    icon: Icons.bun,
   },
 ];
 

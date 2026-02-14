@@ -1,1 +1,1 @@
-export * from '@base-ui/react/form';
+export * from './Form.tsx';

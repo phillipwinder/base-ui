@@ -8,12 +8,7 @@ import { toast } from 'sonner';
 import { z } from 'zod';
 
 import { Button } from '@blitz-ui/react/button';
-import {
-  Popover,
-  PopoverContent,
-  PopoverPositioner,
-  PopoverTrigger,
-} from '@blitz-ui/react/popover';
+import { Popover, PopoverContent, PopoverTrigger } from '@blitz-ui/react/popover';
 import { Calendar } from '@blitz-ui/react/calendar';
 import { cn } from '@/lib/utils';
 import {
@@ -72,17 +67,15 @@ export default function DatePickerForm() {
                     <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                   </PopoverTrigger>
                 </FormControl>
-                <PopoverPositioner align="start">
-                  <PopoverContent className="w-auto p-0">
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={field.onChange}
-                      disabled={(date) => date > new Date() || date < new Date('1900-01-01')}
-                      captionLayout="dropdown"
-                    />
-                  </PopoverContent>
-                </PopoverPositioner>
+                <PopoverContent align="start" className="w-auto p-0">
+                  <Calendar
+                    mode="single"
+                    selected={field.value}
+                    onSelect={field.onChange}
+                    disabled={(date) => date > new Date() || date < new Date('1900-01-01')}
+                    captionLayout="dropdown"
+                  />
+                </PopoverContent>
               </Popover>
               <FormDescription>Your date of birth is used to calculate your age.</FormDescription>
               <FormMessage />

@@ -7,12 +7,7 @@ import { toast } from 'sonner';
 import { z } from 'zod';
 
 import { Button } from '@blitz-ui/react/button';
-import {
-  Popover,
-  PopoverContent,
-  PopoverPositioner,
-  PopoverTrigger,
-} from '@blitz-ui/react/popover';
+import { Popover, PopoverContent, PopoverTrigger } from '@blitz-ui/react/popover';
 import {
   Command,
   CommandEmpty,
@@ -93,35 +88,33 @@ export default function ComboboxForm() {
                     <ChevronsUpDown className="opacity-50" />
                   </PopoverTrigger>
                 </FormControl>
-                <PopoverPositioner align="start">
-                  <PopoverContent className="p-0">
-                    <Command>
-                      <CommandInput placeholder="Search framework..." className="h-9" />
-                      <CommandList>
-                        <CommandEmpty>No framework found.</CommandEmpty>
-                        <CommandGroup>
-                          {languages.map((language) => (
-                            <CommandItem
-                              value={language.label}
-                              key={language.value}
-                              onSelect={() => {
-                                form.setValue('language', language.value);
-                              }}
-                            >
-                              {language.label}
-                              <Check
-                                className={cn(
-                                  'ml-auto',
-                                  language.value === field.value ? 'opacity-100' : 'opacity-0',
-                                )}
-                              />
-                            </CommandItem>
-                          ))}
-                        </CommandGroup>
-                      </CommandList>
-                    </Command>
-                  </PopoverContent>
-                </PopoverPositioner>
+                <PopoverContent align="start" className="p-0">
+                  <Command>
+                    <CommandInput placeholder="Search framework..." className="h-9" />
+                    <CommandList>
+                      <CommandEmpty>No framework found.</CommandEmpty>
+                      <CommandGroup>
+                        {languages.map((language) => (
+                          <CommandItem
+                            value={language.label}
+                            key={language.value}
+                            onSelect={() => {
+                              form.setValue('language', language.value);
+                            }}
+                          >
+                            {language.label}
+                            <Check
+                              className={cn(
+                                'ml-auto',
+                                language.value === field.value ? 'opacity-100' : 'opacity-0',
+                              )}
+                            />
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
               </Popover>
               <FormDescription>
                 This is the language that will be used in the dashboard.

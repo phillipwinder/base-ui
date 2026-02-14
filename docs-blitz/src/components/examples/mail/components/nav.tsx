@@ -24,21 +24,22 @@ export function Nav({ links, isCollapsed }: NavProps) {
         {links.map((link, index) =>
           isCollapsed ? (
             <Tooltip key={index}>
-              <TooltipTrigger>
-                <button
-                  className={cn(
-                    buttonVariants({ variant: link.variant, size: 'icon' }),
-                    'h-9 w-9',
-                    link.variant === 'default' &&
-                      'dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white',
-                  )}
-                >
-                  <link.icon className="h-4 w-4" />
-                  <span className="sr-only">{link.title}</span>
-                </button>
-                ,
-              </TooltipTrigger>
-              <TooltipContent className="flex items-center gap-4">
+              <TooltipTrigger
+                render={
+                  <button
+                    className={cn(
+                      buttonVariants({ variant: link.variant, size: 'icon' }),
+                      'h-9 w-9',
+                      link.variant === 'default' &&
+                        'dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white',
+                    )}
+                  >
+                    <link.icon className="h-4 w-4" />
+                    <span className="sr-only">{link.title}</span>
+                  </button>
+                }
+              />
+              <TooltipContent side="right" className="flex items-center gap-4">
                 {link.title}
                 {link.label && <span className="ml-auto text-muted-foreground">{link.label}</span>}
               </TooltipContent>

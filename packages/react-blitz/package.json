@@ -98,6 +98,7 @@
     "@base-ui/utils": "^0.2.4",
     "@floating-ui/react-dom": "^2.1.4",
     "@floating-ui/utils": "^0.2.10",
+    "@radix-ui/react-select": "^1.0.0",
     "@tanstack/react-form": "^1.28.0",
     "cmdk": "^1.1.1",
     "embla-carousel-react": "^8.6.0",
@@ -109,8 +110,8 @@
     "use-sync-external-store": "^1.5.0"
   },
   "devDependencies": {
-    "@tailwindcss/cli": "^4.1.11",
     "@mui/internal-test-utils": "^2.0.10",
+    "@tailwindcss/cli": "^4.1.11",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
     "@types/chai": "^4.3.20",

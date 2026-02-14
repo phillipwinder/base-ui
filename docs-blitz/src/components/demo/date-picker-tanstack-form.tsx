@@ -8,12 +8,7 @@ import { z } from 'zod';
 import { cn } from '@/lib/utils';
 import { Button } from '@/registry/components/ui/button';
 import { Calendar } from '@/registry/components/ui/calendar';
-import {
-  Popover,
-  PopoverContent,
-  PopoverPositioner,
-  PopoverTrigger,
-} from '@/registry/components/ui/popover';
+import { Popover, PopoverContent, PopoverTrigger } from '@/registry/components/ui/popover';
 import { useAppForm } from '@/registry/components/ui/form-tanstack';
 
 const FormSchema = z.object({
@@ -71,21 +66,19 @@ export default function DatePickerForm() {
                     <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                   </PopoverTrigger>
                 </field.Control>
-                <PopoverPositioner align="start">
-                  <PopoverContent className="w-auto p-0">
-                    <Calendar
-                      mode="single"
-                      selected={field.state.value}
-                      onSelect={(date) => {
-                        if (date) {
-                          field.handleChange(date);
-                        }
-                      }}
-                      disabled={(date) => date > new Date() || date < new Date('1900-01-01')}
-                      captionLayout="dropdown"
-                    />
-                  </PopoverContent>
-                </PopoverPositioner>
+                <PopoverContent align="start" className="w-auto p-0">
+                  <Calendar
+                    mode="single"
+                    selected={field.state.value}
+                    onSelect={(date) => {
+                      if (date) {
+                        field.handleChange(date);
+                      }
+                    }}
+                    disabled={(date) => date > new Date() || date < new Date('1900-01-01')}
+                    captionLayout="dropdown"
+                  />
+                </PopoverContent>
               </Popover>
               <field.Description>
                 Your date of birth is used to calculate your age.

@@ -26,6 +26,10 @@ export default async function ComponentPreview({
 
   const { component: Component, src } = components[name];
 
+  if (!Component || !src) {
+    throw new Error(`Component not found in registry: ${name}`);
+  }
+
   const code = await fs.readFile(path.join(process.cwd(), src), 'utf-8');
 
   let codeWithUpdatedImports = code.replaceAll('@/registry/components/ui/', '@/components/ui/');

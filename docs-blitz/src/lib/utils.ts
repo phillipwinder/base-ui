@@ -16,6 +16,19 @@ export function isDeepEqual(a: unknown, b: unknown): boolean {
   return isEqual(a, b);
 }
 
+export function isActive(pathname: string, href: string) {
+  const normalizedPathname = pathname.replace(/\/$/, '');
+  const normalizedHref = href.replace(/\/$/, '');
+  return (
+    normalizedPathname === normalizedHref ||
+    (normalizedPathname.startsWith(normalizedHref) && normalizedHref !== '')
+  );
+}
+
+export function normalizeSlug(value: string): string {
+  return value.toLowerCase().replace(/\s+/g, '-');
+}
+
 export enum ImportParadigm {
   Dependency = 'dependency',
   Registry = 'registry',

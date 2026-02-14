@@ -43,14 +43,14 @@ export default async function Page(props: { params: Promise<{ slug: string[] }> 
         <MarkdownActions content={markdown} className="lg:hidden" />
         <div className="mb-8 flex items-center gap-2">
           {page.data.links?.docs && (
-            <Button variant="secondary" className="h-6 text-xs !px-2 gap-1.5" asChild>
+            <Button variant="secondary" className="h-6 text-xs !px-2 gap-1.5">
               <Link href={page.data.links.docs} target="_blank" rel="noopener noreferrer">
                 Docs <ArrowUpRight className="size-3" />
               </Link>
             </Button>
           )}
           {page.data.links?.api && (
-            <Button variant="secondary" className="h-6 text-xs !px-2 gap-1.5" asChild>
+            <Button variant="secondary" className="h-6 text-xs !px-2 gap-1.5">
               <Link href={page.data.links.api} target="_blank" rel="noopener noreferrer">
                 API Reference <ArrowUpRight className="size-3" />
               </Link>

@@ -4,34 +4,38 @@ import FloatingPreviews from '@/components/home/preview-grid';
 import { cn } from '@/lib/utils';
 import { ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
-import { ThemePresetSelector } from '@/components/home/theme-preset-selector';
 
 export default function HomePage() {
   return (
     <main className="relative overflow-hidden flex flex-1 flex-col text-center py-20">
       {/* Floating component previews */}
-      {/* <FloatingPreviews className="hidden lg:block" /> */}
+      <FloatingPreviews className="hidden lg:block" />
 
       {/* Hero content */}
-      {/* <div className="relative z-10 max-w-3xl mx-auto">
+      <div className="relative z-10 max-w-3xl mx-auto">
         <h1 className="mb-4 text-4xl sm:text-5xl md:text-7xl font-medium tracking-[-0.06em] text-balance leading-snug">
-          shadcn/ui Components Powered by{' '}
+          Flexible UI components that adapt to how{' '}
           <span className="bg-primary px-4 py-1 rounded text-primary-foreground leading-none inline-block">
-            Base UI
-          </span>
+            you
+          </span>{' '}
+          build.
         </h1>
         <p className="text-fd-muted-foreground text-xl">
-          Beautifully crafted shadcn/ui components powered by Base UI, providing a solid foundation
-          to build modern and elegant interfaces with speed.
+          The UI library that lets you choose, per component, between dependency-based usage and
+          full source integration — enterprise-ready, accessible and feature-rich.
         </p>
-        <Button className="mt-8" size="xl" asChild>
-          <Link href="/docs/components/accordion">
-            Get Started <ArrowUpRight />
-          </Link>
-        </Button>
-      </div> */}
+        <Button
+          size={'lg'}
+          className="mt-4"
+          render={
+            <Link href="/docs/">
+              Get Started <ArrowUpRight />
+            </Link>
+          }
+        />
+      </div>
 
-      <ThemePresetSelector />
+      {/* <ThemePresetSelector /> */}
 
       {/* Animated grid background */}
       <AnimatedGridPattern

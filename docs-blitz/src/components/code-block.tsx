@@ -11,7 +11,7 @@ export async function CodeBlock({
 }: HTMLAttributes<HTMLElement> & {
   code: string;
   lang: string;
-  importParadigm: ImportParadigm;
+  importParadigm?: ImportParadigm;
 }) {
   if (importParadigm) {
     if (importParadigm === 'registry') {

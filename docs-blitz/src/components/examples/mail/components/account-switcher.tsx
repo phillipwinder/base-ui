@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 import { cn } from '@/lib/utils';
 import {
   Select,
@@ -8,6 +6,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@blitz-ui/react/select';
+import * as React from 'react';
 
 interface AccountSwitcherProps {
   isCollapsed: boolean;
@@ -24,7 +23,7 @@ export function AccountSwitcher({ isCollapsed, accounts }: AccountSwitcherProps)
   return (
     <Select
       defaultValue={selectedAccount}
-      onValueChange={(value) => setSelectedAccount(value as string)}
+      onValueChange={(value) => value !== null && setSelectedAccount(value)}
     >
       <SelectTrigger
         className={cn(

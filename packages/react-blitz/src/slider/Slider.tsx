@@ -1,18 +1,18 @@
 'use client';
 
 import * as React from 'react';
-import { Slider as SliderPrimitive } from '@base-ui/react/slider';
+import { Slider as SliderPrimitive, SliderRootProps } from '@base-ui/react/slider';
 
 import { cn } from '@/lib/utils';
 
-function Slider({
+function Slider<Value extends Exclude<SliderRootProps['value'], undefined>>({
   className,
   defaultValue,
   value,
   min = 0,
   max = 100,
   ...props
-}: React.ComponentProps<typeof SliderPrimitive.Root>) {
+}: React.ComponentProps<typeof SliderPrimitive.Root<Value>>) {
   const values = React.useMemo(
     () => (Array.isArray(value) ? value : Array.isArray(defaultValue) ? defaultValue : [min, max]),
     [value, defaultValue, min, max],

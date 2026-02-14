@@ -7,7 +7,6 @@ import {
   Select,
   SelectContent,
   SelectItem,
-  SelectPositioner,
   SelectTrigger,
   SelectValue,
 } from '@blitz-ui/react/select';
@@ -41,13 +40,11 @@ export default function CalendarMonthYearSelector() {
           <SelectTrigger id="dropdown" size="sm" className="bg-background w-full">
             <SelectValue placeholder="Dropdown" />
           </SelectTrigger>
-          <SelectPositioner align="center">
-            <SelectContent>
-              <SelectItem value="dropdown">Month and Year</SelectItem>
-              <SelectItem value="dropdown-months">Month Only</SelectItem>
-              <SelectItem value="dropdown-years">Year Only</SelectItem>
-            </SelectContent>
-          </SelectPositioner>
+          <SelectContent>
+            <SelectItem value="dropdown">Month and Year</SelectItem>
+            <SelectItem value="dropdown-months">Month Only</SelectItem>
+            <SelectItem value="dropdown-years">Year Only</SelectItem>
+          </SelectContent>
         </Select>
       </div>
     </div>

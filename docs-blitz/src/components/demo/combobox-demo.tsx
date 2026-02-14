@@ -4,12 +4,7 @@ import * as React from 'react';
 import { Check, ChevronsUpDown } from 'lucide-react';
 
 import { Button } from '@blitz-ui/react/button';
-import {
-  Popover,
-  PopoverContent,
-  PopoverPositioner,
-  PopoverTrigger,
-} from '@blitz-ui/react/popover';
+import { Popover, PopoverContent, PopoverTrigger } from '@blitz-ui/react/popover';
 import {
   Command,
   CommandEmpty,
@@ -64,36 +59,34 @@ export default function ComboboxDemo() {
           : 'Select framework...'}
         <ChevronsUpDown className="opacity-50" />
       </PopoverTrigger>
-      <PopoverPositioner>
-        <PopoverContent className="w-[200px] p-0">
-          <Command>
-            <CommandInput placeholder="Search framework..." className="h-9" />
-            <CommandList>
-              <CommandEmpty>No framework found.</CommandEmpty>
-              <CommandGroup>
-                {frameworks.map((framework) => (
-                  <CommandItem
-                    key={framework.value}
-                    value={framework.value}
-                    onSelect={(currentValue) => {
-                      setValue(currentValue === value ? '' : currentValue);
-                      setOpen(false);
-                    }}
-                  >
-                    {framework.label}
-                    <Check
-                      className={cn(
-                        'ml-auto',
-                        value === framework.value ? 'opacity-100' : 'opacity-0',
-                      )}
-                    />
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            </CommandList>
-          </Command>
-        </PopoverContent>
-      </PopoverPositioner>
+      <PopoverContent className="w-[200px] p-0">
+        <Command>
+          <CommandInput placeholder="Search framework..." className="h-9" />
+          <CommandList>
+            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandGroup>
+              {frameworks.map((framework) => (
+                <CommandItem
+                  key={framework.value}
+                  value={framework.value}
+                  onSelect={(currentValue) => {
+                    setValue(currentValue === value ? '' : currentValue);
+                    setOpen(false);
+                  }}
+                >
+                  {framework.label}
+                  <Check
+                    className={cn(
+                      'ml-auto',
+                      value === framework.value ? 'opacity-100' : 'opacity-0',
+                    )}
+                  />
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
     </Popover>
   );
 }

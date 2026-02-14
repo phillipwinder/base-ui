@@ -15,12 +15,7 @@ import {
   CommandList,
 } from '@/registry/components/ui/command';
 import { useAppForm } from '@/registry/components/ui/form-tanstack';
-import {
-  Popover,
-  PopoverContent,
-  PopoverPositioner,
-  PopoverTrigger,
-} from '@/registry/components/ui/popover';
+import { Popover, PopoverContent, PopoverTrigger } from '@/registry/components/ui/popover';
 
 const languages = [
   { label: 'English', value: 'en' },
@@ -88,37 +83,33 @@ export default function ComboboxForm() {
                     <ChevronsUpDown className="opacity-50" />
                   </PopoverTrigger>
                 </field.Control>
-                <PopoverPositioner align="start">
-                  <PopoverContent className="p-0">
-                    <Command>
-                      <CommandInput placeholder="Search framework..." className="h-9" />
-                      <CommandList>
-                        <CommandEmpty>No framework found.</CommandEmpty>
-                        <CommandGroup>
-                          {languages.map((language) => (
-                            <CommandItem
-                              value={language.label}
-                              key={language.value}
-                              onSelect={() => {
-                                field.handleChange(language.value);
-                              }}
-                            >
-                              {language.label}
-                              <Check
-                                className={cn(
-                                  'ml-auto',
-                                  language.value === field.state.value
-                                    ? 'opacity-100'
-                                    : 'opacity-0',
-                                )}
-                              />
-                            </CommandItem>
-                          ))}
-                        </CommandGroup>
-                      </CommandList>
-                    </Command>
-                  </PopoverContent>
-                </PopoverPositioner>
+                <PopoverContent align="start" className="p-0">
+                  <Command>
+                    <CommandInput placeholder="Search framework..." className="h-9" />
+                    <CommandList>
+                      <CommandEmpty>No framework found.</CommandEmpty>
+                      <CommandGroup>
+                        {languages.map((language) => (
+                          <CommandItem
+                            value={language.label}
+                            key={language.value}
+                            onSelect={() => {
+                              field.handleChange(language.value);
+                            }}
+                          >
+                            {language.label}
+                            <Check
+                              className={cn(
+                                'ml-auto',
+                                language.value === field.state.value ? 'opacity-100' : 'opacity-0',
+                              )}
+                            />
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
               </Popover>
               <field.Description>
                 This is the language that will be used in the dashboard.

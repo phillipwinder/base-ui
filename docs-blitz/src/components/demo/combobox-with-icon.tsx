@@ -4,12 +4,7 @@ import * as React from 'react';
 import { AppleIcon, BananaIcon, Check, CherryIcon, ChevronsUpDown, GrapeIcon } from 'lucide-react';
 
 import { Button } from '@blitz-ui/react/button';
-import {
-  Popover,
-  PopoverContent,
-  PopoverPositioner,
-  PopoverTrigger,
-} from '@blitz-ui/react/popover';
+import { Popover, PopoverContent, PopoverTrigger } from '@blitz-ui/react/popover';
 import { cn } from '@/lib/utils';
 import {
   Command,
@@ -62,34 +57,32 @@ export default function ComboboxWithIcon() {
         <ComboboxValue value={value} />
         <ChevronsUpDown className="opacity-50" />
       </PopoverTrigger>
-      <PopoverPositioner>
-        <PopoverContent className="w-[200px] p-0">
-          <Command>
-            <CommandInput placeholder="Search fruit..." className="h-9" />
-            <CommandList>
-              <CommandEmpty>No fruit found.</CommandEmpty>
-              <CommandGroup>
-                {fruits.map((fruit) => (
-                  <CommandItem
-                    key={fruit.value}
-                    value={fruit.value}
-                    onSelect={(currentValue) => {
-                      setValue(currentValue === value ? '' : currentValue);
-                      setOpen(false);
-                    }}
-                  >
-                    <fruit.icon />
-                    {fruit.label}
-                    <Check
-                      className={cn('ml-auto', value === fruit.value ? 'opacity-100' : 'opacity-0')}
-                    />
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            </CommandList>
-          </Command>
-        </PopoverContent>
-      </PopoverPositioner>
+      <PopoverContent className="w-[200px] p-0">
+        <Command>
+          <CommandInput placeholder="Search fruit..." className="h-9" />
+          <CommandList>
+            <CommandEmpty>No fruit found.</CommandEmpty>
+            <CommandGroup>
+              {fruits.map((fruit) => (
+                <CommandItem
+                  key={fruit.value}
+                  value={fruit.value}
+                  onSelect={(currentValue) => {
+                    setValue(currentValue === value ? '' : currentValue);
+                    setOpen(false);
+                  }}
+                >
+                  <fruit.icon />
+                  {fruit.label}
+                  <Check
+                    className={cn('ml-auto', value === fruit.value ? 'opacity-100' : 'opacity-0')}
+                  />
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
     </Popover>
   );
 }

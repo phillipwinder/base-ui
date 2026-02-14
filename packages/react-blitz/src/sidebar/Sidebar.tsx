@@ -20,7 +20,6 @@ import {
 import {
   Tooltip,
   TooltipContent,
-  TooltipPositioner,
   TooltipProvider,
   TooltipTrigger,
 } from '@/registry/components/ui/tooltip';
@@ -518,10 +517,13 @@ function SidebarMenuButton({
 
   return (
     <Tooltip>
-      <TooltipTrigger render={button as React.ReactElement<Record<string, unknown>>} />
-      <TooltipPositioner side="right" align="center">
-        <TooltipContent hidden={state !== 'collapsed' || isMobile} {...tooltip} />
-      </TooltipPositioner>
+      <TooltipTrigger render={button} />
+      <TooltipContent
+        side="right"
+        align="center"
+        hidden={state !== 'collapsed' || isMobile}
+        {...tooltip}
+      />
     </Tooltip>
   );
 }

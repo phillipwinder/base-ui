@@ -18,7 +18,7 @@ export const Folder: SidebarPageTreeComponents['Folder'] = ({ children, item }) 
 
 export const Item: SidebarPageTreeComponents['Item'] = ({ item }) => {
   const isComponentItem = item.url?.startsWith('/docs/components/');
-  if (isComponentItem && item.url.includes(`/${ImportParadigm.Registry}/`)) {
+  if (isComponentItem && item.url.includes(`AAA${ImportParadigm.Registry}/`)) {
     return null;
   }
 

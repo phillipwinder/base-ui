@@ -13,16 +13,16 @@ import {
   Trash2,
 } from 'lucide-react';
 
-import { DropdownMenuContent, DropdownMenuItem } from '@blitz-ui/react/menu';
+import { DropdownMenuContent, DropdownMenuItem } from '@blitz-ui/react/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@blitz-ui/react/avatar';
 import { Button } from '@blitz-ui/react/button';
 import { Calendar } from '@blitz-ui/react/calendar';
-import { DropdownMenu, DropdownMenuTrigger } from '@blitz-ui/react/menu';
+import { DropdownMenu, DropdownMenuTrigger } from '@blitz-ui/react/dropdown-menu';
 import { Label } from '@blitz-ui/react/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@blitz-ui/react/popover';
 import { Separator } from '@blitz-ui/react/separator';
 import { Switch } from '@blitz-ui/react/switch';
-import { Textarea } from '@/components/ui/textarea';
+import { Textarea } from '@blitz-ui/react/textarea';
 import { Mail } from '@/components/examples/mail/data';
 import { useState } from 'react';
 
@@ -45,18 +45,26 @@ export function MailDisplay({ mail }: MailDisplayProps) {
             <ArchiveX className="h-4 w-4" />
             <span className="sr-only">Move to junk</span>
           </Button>
-          <Button variant="ghost" size="icon" disabled={!mail} title="Move to trash">
+          <Button
+            variant="ghost"
+            size="icon"
+            disabled={!mail}
+            title="Move to trash"
+            className="text-destructive hover:text-destructive focus-visible:text-destructive"
+          >
             <Trash2 className="h-4 w-4" />
             <span className="sr-only">Move to trash</span>
           </Button>
           <Separator orientation="vertical" className="mx-1 h-6" />
           <Popover>
-            <PopoverTrigger>
-              <Button variant="ghost" size="icon" disabled={!mail} title="Snooze">
-                <Clock className="h-4 w-4" />
-                <span className="sr-only">Snooze</span>
-              </Button>
-            </PopoverTrigger>
+            <PopoverTrigger
+              render={
+                <Button variant="ghost" size="icon" disabled={!mail} title="Snooze">
+                  <Clock className="h-4 w-4" />
+                  <span className="sr-only">Snooze</span>
+                </Button>
+              }
+            />
             <PopoverContent className="flex w-auto p-0">
               <div className="flex flex-col gap-2 border-r px-2 py-4">
                 <div className="px-4 text-sm font-medium">Snooze until</div>
@@ -115,13 +123,15 @@ export function MailDisplay({ mail }: MailDisplayProps) {
         </div>
         <Separator orientation="vertical" className="mx-2 h-6" />
         <DropdownMenu>
-          <DropdownMenuTrigger>
-            <Button variant="ghost" size="icon" disabled={!mail}>
-              <MoreVertical className="h-4 w-4" />
-              <span className="sr-only">More</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
+          <DropdownMenuTrigger
+            render={
+              <Button variant="ghost" size="icon" disabled={!mail}>
+                <MoreVertical className="h-4 w-4" />
+                <span className="sr-only">More</span>
+              </Button>
+            }
+          />
+          <DropdownMenuContent align="end">
             <DropdownMenuItem>Mark as unread</DropdownMenuItem>
             <DropdownMenuItem>Star thread</DropdownMenuItem>
             <DropdownMenuItem>Add label</DropdownMenuItem>

@@ -8,13 +8,12 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuPositioner,
   DropdownMenuTrigger,
 } from '@/registry/components/ui/dropdown-menu';
 import { useCopyToClipboard } from '@/registry/hooks/use-copy-to-clipboard';
-import { ClaudeLogo, MarkdownLogo, OpenAILogo, V0Logo } from './icons';
 import { config } from '@/config';
 import { cn } from '@/lib/utils';
+import { Icons } from './icons';
 
 function getPromptUrl(baseURL: string, url: string) {
   return `${baseURL}?q=${encodeURIComponent(
@@ -42,35 +41,35 @@ export function MarkdownActions({ content, className, ...props }: MarkdownAction
   const { slug } = useParams<{ slug: string[] }>();
   const { copyToClipboard, isCopied } = useCopyToClipboard();
 
-  const url = `${config.appUrl}/docs/${slug.join('/')}`;
-
   if (!slug) {
     return null;
   }
+
+  const url = `${config.appUrl}/docs/${slug.join('/')}`;
 
   const menuItems = [
     {
       label: 'View as Markdown',
       href: `/docs/${slug.join('/')}.md`,
-      icon: MarkdownLogo,
+      icon: Icons.markdown,
     },
 
     {
       label: 'Open in ChatGPT',
       href: getPromptUrl('https://chatgpt.com', url),
-      icon: OpenAILogo,
+      icon: Icons.openAi,
     },
 
     {
       label: 'Open in Claude',
       href: getPromptUrl('https://claude.ai/new', url),
-      icon: ClaudeLogo,
+      icon: Icons.claude,
     },
 
     {
       label: 'Open in v0',
       href: getPromptUrl('https://v0.dev', url),
-      icon: V0Logo,
+      icon: Icons.v0,
     },
   ];
 
@@ -92,19 +91,17 @@ export function MarkdownActions({ content, className, ...props }: MarkdownAction
         >
           <ChevronDown />
         </DropdownMenuTrigger>
-        <DropdownMenuPositioner align="end">
-          <DropdownMenuContent>
-            {menuItems.map((item) => (
-              <DropdownMenuItem
-                key={item.label}
-                render={<Link href={item.href} target="_blank" rel="noopener noreferrer" />}
-              >
-                <item.icon />
-                {item.label}
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenuPositioner>
+        <DropdownMenuContent align="end">
+          {menuItems.map((item) => (
+            <DropdownMenuItem
+              key={item.label}
+              render={<Link href={item.href} target="_blank" rel="noopener noreferrer" />}
+            >
+              <item.icon />
+              {item.label}
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
       </DropdownMenu>
     </div>
   );
